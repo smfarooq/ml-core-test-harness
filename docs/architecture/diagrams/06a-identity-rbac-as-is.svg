@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="801" viewBox="0 0 2000 801" role="img" aria-labelledby="d06a-title d06a-desc" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="d06a-title">06a · Identity, Access and RBAC: As-Is</title>
+<desc id="d06a-desc">Rows map six actors (FSP systems, hub operators, operations users, testers, switch services, platform engineers) to the surfaces they use, each with its authentication and authorisation status. A side panel lists identity hooks present in configuration but disabled. A bottom panel shows the business roles held inside the ledger, which are not access-control roles. Conclusion: no native RBAC in the deployed switch; authorisation is delegated to external infrastructure that is not present.</desc>
+<defs><marker id="m-2B3640" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#2B3640"/></marker></defs>
+<rect x="0" y="0" width="2000" height="801" fill="#FFFFFF"/>
+<rect x="0" y="0" width="2000" height="78" fill="#0F2A47"/>
+<text x="28" y="36" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#FFFFFF" text-anchor="start">06a · Identity, Access and RBAC: As-Is</text>
+<text x="28" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#C9D6E3" text-anchor="start">Who can reach which surface, how they are authenticated and authorised today, and which identity hooks exist but are switched off</text>
+<text x="1972" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#C9D6E3" text-anchor="end">Architecture v1.0 · 2026-11-04 · Source: mojaloop/ml-core-test-harness v2.15.1</text>
+<rect x="1676" y="18" width="296" height="26" rx="13" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1824" y="35.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" fill="#FFFFFF" text-anchor="middle">AS-IS · WHAT THIS REPOSITORY PROVIDES</text>
+<text x="44" y="112" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#3E4C59" text-anchor="start">ACTOR</text>
+<text x="320" y="112" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#3E4C59" text-anchor="start">ACCESS SURFACE</text>
+<text x="760" y="112" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#3E4C59" text-anchor="start">AUTHENTICATION</text>
+<text x="1060" y="112" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#3E4C59" text-anchor="start">AUTHORISATION</text>
+<rect x="44" y="132" width="220" height="50" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<circle cx="61" cy="149" r="5" fill="none" stroke="#4A7A2C" stroke-width="1.5"/>
+<circle cx="61" cy="149" r="1.8" fill="#4A7A2C"/>
+<text x="75" y="152.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2B4A17" text-anchor="start">FSP system</text>
+<text x="53" y="168.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">machine</text>
+<rect x="320" y="132" width="420" height="50" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="329" y="152.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B3C75" text-anchor="start">FSPIOP APIs</text>
+<text x="329" y="168.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">ALS :4002 · quoting :3002 · ML API adapter :3000</text>
+<rect x="646.7" y="138" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="690.3" y="149" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="760" y="132" width="280" height="50" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="769" y="151" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">None: identity is the FSPIOP-Source header</text>
+<rect x="1060" y="132" width="380" height="50" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1069" y="151" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Business rules only: participant exists and is active, accounts exist, Net</text>
+<text x="1069" y="165.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Debit Cap applies</text>
+<path d="M264,154 L320,154" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="44" y="194" width="220" height="50" rx="7" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.4"/>
+<circle cx="61" cy="208" r="3.5" fill="none" stroke="#5B6770" stroke-width="1.5"/>
+<path d="M55,219 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#5B6770" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="75" y="214.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#28323C" text-anchor="start">Hub operator</text>
+<text x="53" y="230.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<rect x="320" y="194" width="420" height="50" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="329" y="214.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#7F1414" text-anchor="start">Operator APIs</text>
+<text x="329" y="230.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">central-ledger admin :3001 · ALS admin :4001 · settlement :3007</text>
+<rect x="657.9" y="200" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="695.9" y="211" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="760" y="194" width="280" height="50" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="769" y="213" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">None (verified)</text>
+<rect x="1060" y="194" width="380" height="50" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1069" y="213" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">None: anyone on the network can create participants, change limits, record</text>
+<text x="1069" y="227.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">funds in/out, close windows</text>
+<path d="M264,216 L320,216" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="44" y="256" width="220" height="50" rx="7" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.4"/>
+<circle cx="61" cy="270" r="3.5" fill="none" stroke="#5B6770" stroke-width="1.5"/>
+<path d="M55,281 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#5B6770" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="75" y="276.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#28323C" text-anchor="start">Operations / finance user</text>
+<text x="53" y="292.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<rect x="320" y="256" width="420" height="50" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4"/>
+<text x="329" y="276.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#06474F" text-anchor="start">Finance Portal + reporting API</text>
+<text x="329" y="292.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">shell :9400 · GraphQL :9401</text>
+<rect x="671.3" y="262" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="702.6" y="273" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="760" y="256" width="280" height="50" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="769" y="275" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Off: AUTH_ENABLED=false; API expects x-user from</text>
+<text x="769" y="289.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">a proxy</text>
+<rect x="1060" y="256" width="380" height="50" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1069" y="275" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Off: Ory Keto participant checks disabled; Roles UI (:9301) not deployed</text>
+<path d="M264,278 L320,278" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="44" y="318" width="220" height="50" rx="7" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.4"/>
+<circle cx="61" cy="332" r="3.5" fill="none" stroke="#5B6770" stroke-width="1.5"/>
+<path d="M55,343 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#5B6770" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="75" y="338.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#28323C" text-anchor="start">Tester</text>
+<text x="53" y="354.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<rect x="320" y="318" width="420" height="50" rx="7" fill="#FFF9E3" stroke="#8A7400" stroke-width="1.4"/>
+<text x="329" y="338.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#4F4300" text-anchor="start">Testing Toolkit UI and API</text>
+<text x="329" y="354.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">:9660 · :9550 · :9440</text>
+<rect x="671.3" y="324" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="702.6" y="335" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="760" y="318" width="280" height="50" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="769" y="337" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Off: OAUTH.AUTH_ENABLED false; UI</text>
+<text x="769" y="351.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">AUTH_ENABLED=FALSE</text>
+<rect x="1060" y="318" width="380" height="50" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1069" y="337" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Role names defined (Application/MTA, Application/PTA,</text>
+<text x="1069" y="351.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Internal/everyone) but not enforced</text>
+<path d="M264,340 L320,340" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="44" y="380" width="220" height="50" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<circle cx="61" cy="397" r="5" fill="none" stroke="#4A7A2C" stroke-width="1.5"/>
+<circle cx="61" cy="397" r="1.8" fill="#4A7A2C"/>
+<text x="75" y="400.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2B4A17" text-anchor="start">Switch services</text>
+<text x="53" y="416.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">machine</text>
+<rect x="320" y="380" width="420" height="50" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="329" y="400.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#5E3800" text-anchor="start">Data stores and broker</text>
+<text x="329" y="416.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">MySQL · Kafka · MongoDB · Redis</text>
+<rect x="657.9" y="386" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="695.9" y="397" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="760" y="380" width="280" height="50" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="769" y="399" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">MySQL: static user per schema; root with empty</text>
+<text x="769" y="413.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">password allowed. Kafka, MongoDB, Redis: none</text>
+<rect x="1060" y="380" width="380" height="50" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1069" y="399" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Schema-level DB grants; reporting API reuses the central_ledger user; no</text>
+<text x="1069" y="413.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Kafka ACLs</text>
+<path d="M264,402 L320,402" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="44" y="442" width="220" height="50" rx="7" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.4"/>
+<circle cx="61" cy="456" r="3.5" fill="none" stroke="#5B6770" stroke-width="1.5"/>
+<path d="M55,467 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#5B6770" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="75" y="462.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#28323C" text-anchor="start">Platform engineer</text>
+<text x="53" y="478.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<rect x="320" y="442" width="420" height="50" rx="7" fill="#F5F1FA" stroke="#6A4C93" stroke-width="1.4"/>
+<text x="329" y="462.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#3E2A5E" text-anchor="start">Kubernetes and secrets</text>
+<text x="329" y="478.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">external cluster · Git repository</text>
+<rect x="660.8" y="448" width="73.2" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="697.4" y="459" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">UNVERIFIED</text>
+<rect x="760" y="442" width="280" height="50" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="769" y="461" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Not in this repository</text>
+<rect x="1060" y="442" width="380" height="50" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1069" y="461" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">No Role / RoleBinding / ServiceAccount manifests; test secrets committed</text>
+<text x="1069" y="475.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">in Git; jobs reference secretRef only</text>
+<path d="M264,464 L320,464" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="1470" y="116" width="506" height="403" rx="10" fill="#FFFFFF" stroke="#B0284A" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1482" y="136" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#B0284A" text-anchor="start">HOOKS PRESENT BUT SWITCHED OFF</text>
+<rect x="1484" y="152" width="478" height="65" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="1493" y="172.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">SDK OAuth2 client</text>
+<text x="1493" y="191.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">OAUTH_TOKEN_ENDPOINT empty, ENABLE_OAUTH_TOKEN_ENDPOINT=false,</text>
+<text x="1493" y="206" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">OAUTH_REFRESH_SECONDS=3600 (envs/*-sdk.env)</text>
+<rect x="1893.3" y="158" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1924.6" y="169" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="1484" y="227" width="478" height="65" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="1493" y="247.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">TTK OAuth, Keycloak, Connection Manager</text>
+<text x="1493" y="266.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">system_config.json: OAUTH.AUTH_ENABLED false · KEYCLOAK.ENABLED false ·</text>
+<text x="1493" y="281" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">CONNECTION_MANAGER.ENABLED false</text>
+<rect x="1893.3" y="233" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1924.6" y="244" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="1484" y="302" width="478" height="65" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="1493" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Reporting API permission checks</text>
+<text x="1493" y="341.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">ORY_KETO_READ_URL &quot;&quot; · AUTH_CHECK_PARTICIPANTS false · USER_ID_HEADER</text>
+<text x="1493" y="356" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">x-user</text>
+<rect x="1893.3" y="308" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1924.6" y="319" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="1484" y="377" width="478" height="65" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="1493" y="397.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Finance Portal authentication</text>
+<text x="1493" y="416.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">reporting-hub-bop-shell AUTH_ENABLED=false; Roles micro-frontend referenced but not</text>
+<text x="1493" y="431" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">deployed</text>
+<rect x="1893.3" y="383" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1924.6" y="394" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="1484" y="452" width="478" height="51" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="1493" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Payment Manager / certificate onboarding</text>
+<text x="1493" y="491.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">SDK PM4ML_ENABLED=false</text>
+<rect x="1893.3" y="458" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1924.6" y="469" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="24" y="543" width="1952" height="133" rx="10" fill="#F7FAFE" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="36" y="563" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="start">BUSINESS ROLES INSIDE THE LEDGER</text>
+<text x="312.2" y="563" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#0B3C75" text-anchor="start">they decide what a participant can do financially, not who may call an API</text>
+<rect x="38" y="583" width="472" height="79" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="47" y="603.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Hub participant</text>
+<text x="47" y="622.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">HUB_PARTICIPANT {ID: 1, NAME: &quot;Hub&quot;} with Hub accounts such as</text>
+<text x="47" y="637" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">HUB_MULTILATERAL_SETTLEMENT and HUB_RECONCILIATION</text>
+<text x="47" y="651.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(configs/central-ledger.js, provisioning)</text>
+<rect x="416.7" y="589" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="460.3" y="600" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="522" y="583" width="472" height="65" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="531" y="603.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">DFSP participant</text>
+<text x="531" y="622.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Registered FSP with POSITION and SETTLEMENT accounts per currency, a Net Debit Cap</text>
+<text x="531" y="637" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">and callback endpoints (verified in labs)</text>
+<rect x="900.7" y="589" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="944.3" y="600" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1006" y="583" width="472" height="51" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1015" y="603.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">FX provider participant</text>
+<text x="1015" y="622.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Participant with accounts in two currencies used in FX flows (perffxp, testfxp1)</text>
+<rect x="1384.7" y="589" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1428.3" y="600" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1490" y="583" width="472" height="65" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1499" y="603.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Transfer participant roles</text>
+<text x="1499" y="622.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Each transfer links participants by role (e.g. PAYER_DFSP); settlement transfers use</text>
+<text x="1499" y="637" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">DFSP_POSITION and HUB roles (verified)</text>
+<rect x="1868.7" y="589" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1912.3" y="600" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="24" y="692" width="1952" height="53" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="33" y="713.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#3D3500" text-anchor="start">Conclusion</text>
+<text x="33" y="733.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">The deployed switch has no native role-based access control on any API. Participant identity rests on headers, and operator actions are open. Real schemes delegate authentication and authorisation to external infrastructure (gateway, IdP, proxy, permission service) that this repository does not contain. The proposed operating model is in 06b.</text>
+<line x1="28" y1="767" x2="1972" y2="767" stroke="#D9E2EC" stroke-width="1"/>
+<text x="28" y="787" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="start">Evidence: compose files, envs/*.env, TTK system_config.json, docker/reporting-hub-bop-api-svc/config/default.json, k8s-mojaloop-perf-tuning/, lab verification.</text>
+<text x="1972" y="787" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="end">Evidence register: docs/architecture/analysis/architecture-evidence-register.md</text>
+</svg>

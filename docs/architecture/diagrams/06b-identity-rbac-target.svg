@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="855" viewBox="0 0 2000 855" role="img" aria-labelledby="d06b-title d06b-desc" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="d06b-title">06b · RBAC and Organisational Roles: Target</title>
+<desc id="d06b-desc">Proposed operating model. Eleven roles (seven human, four machine) with their scope; a role-permission matrix covering FSPIOP APIs, onboarding, limits and funds, settlement, portal, Kubernetes, deployment, secrets, databases, Kafka, monitoring and audit; and the enforcement layer for each kind of access.</desc>
+<defs></defs>
+<rect x="0" y="0" width="2000" height="855" fill="#FFFFFF"/>
+<rect x="0" y="0" width="2000" height="78" fill="#0F2A47"/>
+<text x="28" y="36" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#FFFFFF" text-anchor="start">06b · RBAC and Organisational Roles: Target</text>
+<text x="28" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#C9D6E3" text-anchor="start">Proposed operational roles (not existing Mojaloop roles), what each may do, and where each permission is enforced</text>
+<text x="1972" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#C9D6E3" text-anchor="end">Architecture v1.0 · 2026-11-04 · Source: mojaloop/ml-core-test-harness v2.15.1</text>
+<rect x="1624.9" y="18" width="347.1" height="26" rx="13" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1798.5" y="35.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" fill="#FFFFFF" text-anchor="middle">TARGET · PROPOSED DESIGN (NOT IN REPOSITORY)</text>
+<rect x="24" y="104" width="168.4" height="93" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="41" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M35,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="55" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Platform</text>
+<text x="55" y="138.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Administrator</text>
+<text x="33" y="152.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="33" y="172.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Mojaloop deployment, Helm</text>
+<text x="33" y="186.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">values, upgrades</text>
+<rect x="202.4" y="104" width="168.4" height="93" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="219.36363636363637" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M213.36363636363637,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="233.4" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Infrastructure</text>
+<text x="233.4" y="138.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Administrator</text>
+<text x="211.4" y="152.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="211.4" y="172.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Clusters, nodes, networks,</text>
+<text x="211.4" y="186.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">storage, databases, Kafka</text>
+<rect x="380.7" y="104" width="168.4" height="93" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="397.72727272727275" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M391.72727272727275,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="411.7" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Security</text>
+<text x="411.7" y="138.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Administrator</text>
+<text x="389.7" y="152.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="389.7" y="172.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">IAM, PKI, keys, secrets,</text>
+<text x="389.7" y="186.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">policies, audit review</text>
+<rect x="559.1" y="104" width="168.4" height="93" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="576.0909090909091" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M570.0909090909091,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="590.1" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Hub Operations</text>
+<text x="590.1" y="138.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Engineer</text>
+<text x="568.1" y="152.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="568.1" y="172.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Onboarding, endpoints, limits,</text>
+<text x="568.1" y="186.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">oracles, first-line incidents</text>
+<rect x="737.5" y="104" width="168.4" height="93" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="754.4545454545455" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M748.4545454545455,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="768.5" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Settlement / Finance</text>
+<text x="768.5" y="138.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Operator</text>
+<text x="746.5" y="152.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="746.5" y="172.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Windows, settlements, funds</text>
+<text x="746.5" y="186.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">in/out, reconciliation</text>
+<rect x="915.8" y="104" width="168.4" height="79" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="932.8181818181819" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M926.8181818181819,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="946.8" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Developer</text>
+<text x="924.8" y="138.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="924.8" y="157.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Non-production deployments</text>
+<text x="924.8" y="172" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">and diagnostics</text>
+<rect x="1094.2" y="104" width="168.4" height="93" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="1111.1818181818182" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M1105.1818181818182,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1125.2" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">FI (DFSP)</text>
+<text x="1125.2" y="138.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Administrator</text>
+<text x="1103.2" y="152.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="1103.2" y="172.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Own transfers, positions,</text>
+<text x="1103.2" y="186.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">users and certificates</text>
+<rect x="1272.5" y="104" width="168.4" height="93" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<circle cx="1289.5454545454545" cy="121" r="5" fill="none" stroke="#4A7A2C" stroke-width="1.5"/>
+<circle cx="1289.5454545454545" cy="121" r="1.8" fill="#4A7A2C"/>
+<text x="1303.5" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#2B4A17" text-anchor="start">Payment Participant</text>
+<text x="1303.5" y="138.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#2B4A17" text-anchor="start">(DFSP system)</text>
+<text x="1281.5" y="152.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">machine</text>
+<text x="1281.5" y="172.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Calls FSPIOP APIs as itself</text>
+<text x="1281.5" y="186.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">only</text>
+<rect x="1450.9" y="104" width="168.4" height="93" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<circle cx="1467.909090909091" cy="121" r="5" fill="none" stroke="#4A7A2C" stroke-width="1.5"/>
+<circle cx="1467.909090909091" cy="121" r="1.8" fill="#4A7A2C"/>
+<text x="1481.9" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#2B4A17" text-anchor="start">API Client</text>
+<text x="1459.9" y="138.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">machine</text>
+<text x="1459.9" y="157.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Integrations (reporting,</text>
+<text x="1459.9" y="172" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">scheme services) with scoped</text>
+<text x="1459.9" y="186.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">tokens</text>
+<rect x="1629.3" y="104" width="168.4" height="79" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<circle cx="1646.2727272727275" cy="121" r="5" fill="none" stroke="#4A7A2C" stroke-width="1.5"/>
+<circle cx="1646.2727272727275" cy="121" r="1.8" fill="#4A7A2C"/>
+<text x="1660.3" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#2B4A17" text-anchor="start">Service Account</text>
+<text x="1638.3" y="138.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">machine</text>
+<text x="1638.3" y="157.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Kubernetes workloads with</text>
+<text x="1638.3" y="172" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">least privilege</text>
+<rect x="1807.6" y="104" width="168.4" height="79" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<circle cx="1824.6363636363637" cy="118" r="3.5" fill="none" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M1818.6363636363637,129 q0,-7 6,-7 q6,0 6,7" fill="none" stroke="#B0284A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1838.6" y="123.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" fill="#6E1129" text-anchor="start">Monitoring and Audit</text>
+<text x="1816.6" y="138.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">human</text>
+<text x="1816.6" y="157.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Read-only dashboards, logs</text>
+<text x="1816.6" y="172" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">and audit trails</text>
+<text x="24" y="225" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#5B3CC4" text-anchor="start">ROLE-PERMISSION MATRIX (PROPOSED)</text>
+<rect x="24" y="237" width="1952" height="39.7" rx="0" fill="#33207F" stroke="none" stroke-width="1"/>
+<text x="30" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">Permission ↓ / Role →</text>
+<text x="385.7" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Platform Administrator</text>
+<text x="537.2" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Infrastructure</text>
+<text x="537.2" y="266.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Administrator</text>
+<text x="688.6" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Security Administrator</text>
+<text x="840.1" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Hub Operations Engineer</text>
+<text x="991.5" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Settlement / Finance</text>
+<text x="991.5" y="266.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Operator</text>
+<text x="1143" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Developer</text>
+<text x="1294.5" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">FI (DFSP) Administrator</text>
+<text x="1445.9" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Payment Participant</text>
+<text x="1445.9" y="266.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">(DFSP system)</text>
+<text x="1597.4" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">API Client</text>
+<text x="1748.8" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Service Account</text>
+<text x="1900.3" y="253" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Monitoring and Audit</text>
+<text x="30" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">FSPIOP APIs (/parties, /quotes, /transfers)</text>
+<text x="385.7" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="537.2" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="688.6" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="840.1" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="991.5" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1068.3" y="277.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1143" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">non-prod</text>
+<text x="1294.5" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1371.2" y="277.7" width="149.5" height="28" rx="2" fill="#D7EFE4" stroke="none" stroke-width="1"/>
+<text x="1445.9" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B4A2A" text-anchor="middle">O</text>
+<text x="1597.4" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1900.3" y="292.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<line x1="24" y1="306.7" x2="1976" y2="306.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="306.7" width="1952" height="30" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="30" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Participant onboarding, endpoints, oracles</text>
+<rect x="311" y="307.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="385.7" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="537.2" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="613.9" y="307.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="765.4" y="307.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="840.1" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W †</text>
+<rect x="916.8" y="307.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="991.5" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="1143" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1219.7" y="307.7" width="149.5" height="28" rx="2" fill="#D7EFE4" stroke="none" stroke-width="1"/>
+<text x="1294.5" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B4A2A" text-anchor="middle">R (own)</text>
+<text x="1445.9" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1825.5" y="307.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1900.3" y="322.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<line x1="24" y1="336.7" x2="1976" y2="336.7" stroke="#D9E2EC" stroke-width="1"/>
+<text x="30" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Limits (NDC) and funds in / out</text>
+<text x="385.7" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="537.2" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="613.9" y="337.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="765.4" y="337.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="840.1" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W †</text>
+<rect x="916.8" y="337.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="991.5" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W †</text>
+<text x="1143" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1219.7" y="337.7" width="149.5" height="28" rx="2" fill="#D7EFE4" stroke="none" stroke-width="1"/>
+<text x="1294.5" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B4A2A" text-anchor="middle">R (own)</text>
+<text x="1445.9" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1825.5" y="337.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1900.3" y="352.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<line x1="24" y1="366.7" x2="1976" y2="366.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="366.7" width="1952" height="30" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="30" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Settlement windows and settlements</text>
+<text x="385.7" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="537.2" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="613.9" y="367.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="765.4" y="367.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="840.1" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="916.8" y="367.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="991.5" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W †</text>
+<text x="1143" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1219.7" y="367.7" width="149.5" height="28" rx="2" fill="#D7EFE4" stroke="none" stroke-width="1"/>
+<text x="1294.5" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B4A2A" text-anchor="middle">R (own)</text>
+<text x="1445.9" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1825.5" y="367.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1900.3" y="382.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<line x1="24" y1="396.7" x2="1976" y2="396.7" stroke="#D9E2EC" stroke-width="1"/>
+<text x="30" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Finance Portal: transfers and positions</text>
+<rect x="311" y="397.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="385.7" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="537.2" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="613.9" y="397.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="765.4" y="397.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="840.1" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="916.8" y="397.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="991.5" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="1143" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1219.7" y="397.7" width="149.5" height="28" rx="2" fill="#D7EFE4" stroke="none" stroke-width="1"/>
+<text x="1294.5" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B4A2A" text-anchor="middle">O</text>
+<text x="1445.9" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1522.6" y="397.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1597.4" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R (scoped)</text>
+<text x="1748.8" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1825.5" y="397.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1900.3" y="412.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<line x1="24" y1="426.7" x2="1976" y2="426.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="426.7" width="1952" height="30" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="30" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Kubernetes cluster administration</text>
+<rect x="311" y="427.7" width="149.5" height="28" rx="2" fill="#0F2A47" stroke="none" stroke-width="1"/>
+<text x="385.7" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">F</text>
+<rect x="462.5" y="427.7" width="149.5" height="28" rx="2" fill="#0F2A47" stroke="none" stroke-width="1"/>
+<text x="537.2" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">F</text>
+<rect x="613.9" y="427.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="840.1" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="991.5" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1143" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1294.5" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1445.9" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1900.3" y="442.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<line x1="24" y1="456.7" x2="1976" y2="456.7" stroke="#D9E2EC" stroke-width="1"/>
+<text x="30" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Namespace deployment through GitOps</text>
+<rect x="311" y="457.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="385.7" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W</text>
+<rect x="462.5" y="457.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="537.2" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="613.9" y="457.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="840.1" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="991.5" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1068.3" y="457.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="1143" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W non-prod</text>
+<text x="1294.5" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1445.9" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1900.3" y="472.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<line x1="24" y1="486.7" x2="1976" y2="486.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="486.7" width="1952" height="30" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="30" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Secrets and keys (vault, HSM)</text>
+<text x="385.7" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="537.2" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="613.9" y="487.7" width="149.5" height="28" rx="2" fill="#0F2A47" stroke="none" stroke-width="1"/>
+<text x="688.6" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">F</text>
+<text x="840.1" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="991.5" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1143" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1294.5" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1445.9" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1674.1" y="487.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1748.8" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R own</text>
+<text x="1900.3" y="502.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<line x1="24" y1="516.7" x2="1976" y2="516.7" stroke="#D9E2EC" stroke-width="1"/>
+<text x="30" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Direct database access</text>
+<text x="385.7" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="462.5" y="517.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="537.2" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W break-glass</text>
+<rect x="613.9" y="517.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="840.1" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="991.5" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1068.3" y="517.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1143" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R non-prod</text>
+<text x="1294.5" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1445.9" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1674.1" y="517.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="1748.8" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W own schema</text>
+<rect x="1825.5" y="517.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1900.3" y="532.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R audit views</text>
+<line x1="24" y1="546.7" x2="1976" y2="546.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="546.7" width="1952" height="30" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="30" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Kafka administration</text>
+<text x="385.7" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="462.5" y="547.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="537.2" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W</text>
+<rect x="613.9" y="547.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="840.1" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="991.5" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1143" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1294.5" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1445.9" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1674.1" y="547.7" width="149.5" height="28" rx="2" fill="#1F5FA8" stroke="none" stroke-width="1"/>
+<text x="1748.8" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">W own topics</text>
+<text x="1900.3" y="562.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<line x1="24" y1="576.7" x2="1976" y2="576.7" stroke="#D9E2EC" stroke-width="1"/>
+<text x="30" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Monitoring dashboards and logs</text>
+<rect x="311" y="577.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="385.7" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="462.5" y="577.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="537.2" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="613.9" y="577.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="688.6" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="765.4" y="577.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="840.1" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="916.8" y="577.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="991.5" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="1068.3" y="577.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1143" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R non-prod</text>
+<text x="1294.5" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1445.9" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1825.5" y="577.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1900.3" y="592.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<line x1="24" y1="606.7" x2="1976" y2="606.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="606.7" width="1952" height="30" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="30" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="start">Audit trail</text>
+<rect x="311" y="607.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="385.7" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="462.5" y="607.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="537.2" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="613.9" y="607.7" width="149.5" height="28" rx="2" fill="#0F2A47" stroke="none" stroke-width="1"/>
+<text x="688.6" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">F</text>
+<rect x="765.4" y="607.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="840.1" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<rect x="916.8" y="607.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="991.5" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<text x="1143" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1219.7" y="607.7" width="149.5" height="28" rx="2" fill="#D7EFE4" stroke="none" stroke-width="1"/>
+<text x="1294.5" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B4A2A" text-anchor="middle">R (own)</text>
+<text x="1445.9" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1597.4" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<text x="1748.8" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#9AA5B1" text-anchor="middle">–</text>
+<rect x="1825.5" y="607.7" width="149.5" height="28" rx="2" fill="#CFE0F5" stroke="none" stroke-width="1"/>
+<text x="1900.3" y="622.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#0B3C75" text-anchor="middle">R</text>
+<line x1="24" y1="636.7" x2="1976" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="237" width="1952" height="399.7" rx="0" fill="none" stroke="#9AA5B1" stroke-width="1"/>
+<line x1="310" y1="237" x2="310" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="461.5" y1="237" x2="461.5" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="612.9" y1="237" x2="612.9" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="764.4" y1="237" x2="764.4" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="915.8" y1="237" x2="915.8" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1067.3" y1="237" x2="1067.3" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1218.7" y1="237" x2="1218.7" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1370.2" y1="237" x2="1370.2" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1521.6" y1="237" x2="1521.6" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1673.1" y1="237" x2="1673.1" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1824.5" y1="237" x2="1824.5" y2="636.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="656.7" width="560" height="79" rx="7" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="33" y="677.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#1F2933" text-anchor="start">Key</text>
+<text x="33" y="696.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">F full · W write / operate · R read · O own participant only · – none</text>
+<text x="33" y="710.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">† four-eyes approval required (maker-checker)</text>
+<text x="33" y="725" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">non-prod: only in non-production environments · break-glass: time-limited, logged emergency access</text>
+<rect x="600" y="656.7" width="673" height="66" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="609" y="677.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">Enforced at: FSPIOP</text>
+<text x="609" y="696.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Gateway mTLS + OAuth2 client bound to FSPIOP-Source; switch validates JWS</text>
+<rect x="1201.3" y="662.7" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1234.2" y="673.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1287" y="656.7" width="673" height="66" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1296" y="677.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">Enforced at: Operator APIs and portal</text>
+<text x="1296" y="696.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">OIDC SSO + MFA → identity-aware proxy (x-user) → permission checks (Ory Keto is already supported by the reporting API)</text>
+<rect x="1888.3" y="662.7" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1921.2" y="673.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="600" y="732.7" width="673" height="66" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="609" y="753.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">Enforced at: Kubernetes</text>
+<text x="609" y="772.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">RBAC Roles bound to SSO groups · one ServiceAccount per workload · admission policies</text>
+<rect x="1201.3" y="738.7" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1234.2" y="749.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1287" y="732.7" width="673" height="66" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1296" y="753.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">Enforced at: Data and secrets</text>
+<text x="1296" y="772.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Per-service DB users · Kafka ACLs per topic and group · vault policies per role and service account</text>
+<rect x="1888.3" y="738.7" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1921.2" y="749.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<line x1="28" y1="821" x2="1972" y2="821" stroke="#D9E2EC" stroke-width="1"/>
+<text x="28" y="841" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="start">These are proposed operational roles: the repository implements none of them (see 06a). Align role names with your organisation and the scheme rules.</text>
+<text x="1972" y="841" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="end">Evidence register: docs/architecture/analysis/architecture-evidence-register.md</text>
+</svg>

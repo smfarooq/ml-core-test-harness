@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="807" viewBox="0 0 2000 807" role="img" aria-labelledby="d05b-title d05b-desc" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="d05b-title">05b · Security Architecture: Target</title>
+<desc id="d05b-desc">Proposed design. FSP traffic passes edge protection and an API gateway enforcing mTLS and OAuth2 bound to FSPIOP-Source, then a service mesh with strict mTLS and default-deny network policies where switch services validate and sign JWS. Data stores use TLS, authentication and encryption at rest. Operators use SSO with MFA through an identity-aware proxy and a permission service. Keys live in an HSM and vault with automated certificates; security events go to a SIEM.</desc>
+<defs><marker id="m-C62828" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#C62828"/></marker><marker id="m-2B3640" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#2B3640"/></marker><marker id="m-B26B00" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#B26B00"/></marker></defs>
+<rect x="0" y="0" width="2000" height="807" fill="#FFFFFF"/>
+<rect x="0" y="0" width="2000" height="78" fill="#0F2A47"/>
+<text x="28" y="36" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#FFFFFF" text-anchor="start">05b · Security Architecture: Target</text>
+<text x="28" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#C9D6E3" text-anchor="start">A proposed defence-in-depth design: authenticated connections, signed messages, segmented networks, protected data, managed keys and monitored operations</text>
+<text x="1972" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#C9D6E3" text-anchor="end">Architecture v1.0 · 2026-11-04 · Source: mojaloop/ml-core-test-harness v2.15.1</text>
+<rect x="1624.9" y="18" width="347.1" height="26" rx="13" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1798.5" y="35.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" fill="#FFFFFF" text-anchor="middle">TARGET · PROPOSED DESIGN (NOT IN REPOSITORY)</text>
+<rect x="24" y="104" width="240" height="262" rx="10" fill="#FFFFFF" stroke="#5B6770" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="36" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#5B6770" text-anchor="start">PARTICIPANT NETWORK</text>
+<rect x="38" y="144" width="212" height="127" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<text x="47" y="164.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#2B4A17" text-anchor="start">FSP / FXP connector</text>
+<text x="47" y="183.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">TLS client certificate issued by the</text>
+<text x="47" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">scheme CA</text>
+<text x="47" y="212.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">JWS key pair; signs every request</text>
+<text x="47" y="226.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">OAuth2 client credentials in its vault</text>
+<text x="47" y="240.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Own ILP_SECRET</text>
+<rect x="177.3" y="250" width="65.7" height="15" rx="7.5" fill="#546E7A" stroke="none" stroke-width="1"/>
+<text x="210.2" y="261" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">EXTERNAL</text>
+<rect x="38" y="285" width="212" height="65" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<text x="47" y="305.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#2B4A17" text-anchor="start">Callback endpoint</text>
+<text x="47" y="324.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">HTTPS; accepts only the hub client</text>
+<text x="47" y="339" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">certificate; validates the switch JWS</text>
+<rect x="284" y="104" width="230" height="140" rx="10" fill="#FFFFFF" stroke="#C62828" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="296" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#C62828" text-anchor="start">EDGE</text>
+<rect x="298" y="144" width="202" height="84" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="307" y="164.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">DDoS protection + WAF</text>
+<text x="307" y="183.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Private links / VPN · IP allow-lists ·</text>
+<text x="307" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">request filtering</text>
+<rect x="427.3" y="207" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="460.2" y="218" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="534" y="104" width="300" height="178" rx="10" fill="#FFFFFF" stroke="#C62828" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="546" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#C62828" text-anchor="start">API GATEWAY</text>
+<text x="649.8" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#7F1414" text-anchor="start">FSPIOP entry</text>
+<rect x="548" y="144" width="272" height="122" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="557" y="164.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">FSPIOP API gateway</text>
+<text x="557" y="183.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#C62828" text-anchor="start">•</text>
+<text x="568" y="183.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">mTLS: client certificate checked against the</text>
+<text x="568" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">scheme CA</text>
+<text x="557" y="212.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#C62828" text-anchor="start">•</text>
+<text x="568" y="212.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">OAuth2 client credentials (token from the IdP)</text>
+<text x="557" y="226.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#C62828" text-anchor="start">•</text>
+<text x="568" y="226.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Binds certificate subject and token client to</text>
+<text x="568" y="240.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">FSPIOP-Source</text>
+<text x="557" y="255.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#C62828" text-anchor="start">•</text>
+<text x="568" y="255.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Rate limits, quotas, schema pre-validation</text>
+<rect x="748.3" y="150" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="781.2" y="161" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="854" y="104" width="560" height="243" rx="10" fill="#FFFFFF" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="866" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="start">SWITCH ZONE · SERVICE MESH</text>
+<text x="1092.6" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#0B3C75" text-anchor="start">namespace mojaloop</text>
+<rect x="868" y="144" width="532" height="65" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="877" y="164.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">Mesh controls</text>
+<text x="877" y="183.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Istio mTLS STRICT with workload identities · default-deny NetworkPolicies · AuthorizationPolicies per</text>
+<text x="877" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">service · no published ports</text>
+<rect x="1328.3" y="150" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1361.2" y="161" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="868" y="223" width="260" height="108" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="877" y="243.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Mojaloop services</text>
+<text x="877" y="262.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Validate FSP JWS against the key registered for</text>
+<text x="877" y="277" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">FSPIOP-Source (VALIDATE_INBOUND_JWS)</text>
+<text x="877" y="291.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Sign switch messages with the hub key</text>
+<text x="877" y="305.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(JWS_SIGN, already on)</text>
+<text x="877" y="319.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Protocol and financial controls as in 05a</text>
+<rect x="1140" y="223" width="260" height="79" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1149" y="243.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">Egress gateway</text>
+<text x="1149" y="262.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">All callbacks leave here with the hub client</text>
+<text x="1149" y="277" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">certificate</text>
+<text x="1149" y="291.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Only registered FSP endpoints are allowed</text>
+<rect x="1328.3" y="229" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1361.2" y="240" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1434" y="104" width="542" height="296" rx="10" fill="#FFFFFF" stroke="#B26B00" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1446" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#B26B00" text-anchor="start">DATA ZONE</text>
+<text x="1531.9" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#5E3800" text-anchor="start">namespace stateful-resources</text>
+<rect x="1448" y="144" width="514" height="51" rx="7" fill="#E5F5EC" stroke="#1B7F4C" stroke-width="1.4"/>
+<text x="1457" y="164.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B4A2A" text-anchor="start">Kafka</text>
+<text x="1457" y="183.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">SASL_SSL listeners · ACLs per topic and consumer group</text>
+<rect x="1890.3" y="150" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1923.2" y="161" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1448" y="207" width="514" height="51" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="1457" y="227.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#5E3800" text-anchor="start">MySQL</text>
+<text x="1457" y="246.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">TLS · one least-privilege user per service · encryption at rest · audit logging</text>
+<rect x="1890.3" y="213" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1923.2" y="224" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1448" y="270" width="514" height="51" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="1457" y="290.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#5E3800" text-anchor="start">MongoDB · Redis</text>
+<text x="1457" y="309.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Authentication and TLS on · no host ports</text>
+<rect x="1890.3" y="276" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1923.2" y="287" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1448" y="333" width="514" height="51" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="1457" y="353.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#5E3800" text-anchor="start">Backups</text>
+<text x="1457" y="372.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Encrypted with KMS keys · immutable copies</text>
+<rect x="1890.3" y="339" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1923.2" y="350" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<path d="M250,174 L298,174" fill="none" stroke="#C62828" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#m-C62828)"/>
+<path d="M500,174 L548,174" fill="none" stroke="#C62828" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#m-C62828)"/>
+<path d="M820,253 L868,253" fill="none" stroke="#C62828" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#m-C62828)"/>
+<path d="M1128,253 L1140,253" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<path d="M1270,302 L1270,416 L144,416 L144,350" fill="none" stroke="#C62828" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#m-C62828)"/>
+<rect x="531.9" y="406.5" width="350.2" height="19.1" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="707" y="419.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#C62828" text-anchor="middle">callbacks over HTTPS with the hub client certificate + switch JWS</text>
+<path d="M1414,232.5 L1448,232.5" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<rect x="24" y="446" width="810" height="235" rx="10" fill="#FFFFFF" stroke="#B0284A" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="36" y="466" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#B0284A" text-anchor="start">OPERATOR ACCESS</text>
+<text x="178.5" y="466" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#6E1129" text-anchor="start">admin APIs · settlement · portals</text>
+<circle cx="93" cy="501" r="9" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.5"/>
+<path d="M77,530 q0,-18 16,-18 q16,0 16,18 z" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.5"/>
+<text x="93" y="546" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="middle">Hub operators</text>
+<rect x="170" y="486" width="200" height="84" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="179" y="506.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">OIDC identity provider</text>
+<text x="179" y="525.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">SSO + MFA; groups map to the roles</text>
+<text x="179" y="540" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">in 06b (e.g. Keycloak)</text>
+<rect x="297.3" y="549" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="330.2" y="560" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="388" y="486" width="200" height="98" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="397" y="506.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Identity-aware proxy</text>
+<text x="397" y="525.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Validates the session and sets</text>
+<text x="397" y="540" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">x-user, which the reporting API</text>
+<text x="397" y="554.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">already reads (e.g. Ory Oathkeeper)</text>
+<rect x="515.3" y="563" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="548.2" y="574" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="606" y="486" width="214" height="98" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="615" y="506.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Permission service</text>
+<text x="615" y="525.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Role and participant checks; the</text>
+<text x="615" y="540" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">reporting API supports Ory Keto</text>
+<text x="615" y="554.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(AUTH_CHECK_PARTICIPANTS)</text>
+<rect x="747.3" y="563" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="780.2" y="574" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<path d="M148,514 L170,514" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<path d="M370,514 L388,514" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<path d="M588,514 L606,514" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="170" y="600" width="650" height="65" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="179" y="620.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Operator APIs and portals behind an internal gateway</text>
+<text x="179" y="639.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">central-ledger admin · ALS admin (oracles) · central-settlement · Finance Portal · TTK (non-production only) · four-eyes approval</text>
+<text x="179" y="654" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">for limits, funds in/out and settlement</text>
+<rect x="854" y="446" width="560" height="199" rx="10" fill="#FFFFFF" stroke="#B0284A" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="866" y="466" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#B0284A" text-anchor="start">KEY AND TRUST MANAGEMENT</text>
+<rect x="868" y="486" width="260" height="65" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="877" y="506.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">HSM</text>
+<text x="877" y="525.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Hub JWS signing key never leaves it; rotation</text>
+<text x="877" y="540" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">with overlapping verification keys</text>
+<rect x="1056.3" y="492" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1089.2" y="503" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1140" y="486" width="260" height="66" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="1149" y="506.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Vault / KMS + External</text>
+<text x="1149" y="521.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Secrets</text>
+<text x="1149" y="540.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">DB passwords, OAuth secrets; nothing in Git</text>
+<rect x="1328.3" y="492" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1361.2" y="503" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="868" y="564" width="260" height="65" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="877" y="584.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">Internal PKI</text>
+<text x="877" y="603.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">cert-manager and mesh-issued workload</text>
+<text x="877" y="618" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">certificates, rotated automatically</text>
+<rect x="1056.3" y="570" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1089.2" y="581" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1140" y="564" width="260" height="65" rx="7" fill="#FCE9EF" stroke="#B0284A" stroke-width="1.4"/>
+<text x="1149" y="584.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#6E1129" text-anchor="start">FSP onboarding</text>
+<text x="1149" y="603.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Signs FSP CSRs, exchanges JWS public keys</text>
+<text x="1149" y="618" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(e.g. Mojaloop Connection Manager)</text>
+<rect x="1328.3" y="570" width="65.7" height="15" rx="7.5" fill="#546E7A" stroke="none" stroke-width="1"/>
+<text x="1361.2" y="581" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">EXTERNAL</text>
+<rect x="1434" y="446" width="542" height="233" rx="10" fill="#FFFFFF" stroke="#C62828" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1446" y="466" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#C62828" text-anchor="start">SECURITY MONITORING</text>
+<rect x="1448" y="486" width="514" height="51" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1457" y="506.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">SIEM</text>
+<text x="1457" y="525.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Gateway denials, JWS failures, admin changes, Kubernetes audit logs, DB audit logs</text>
+<rect x="1890.3" y="492" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1923.2" y="503" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="1448" y="549" width="514" height="51" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4"/>
+<text x="1457" y="569.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#06474F" text-anchor="start">Audit trail</text>
+<text x="1457" y="588.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">topic-event-audit already exists; keep it in tamper-evident storage with a retention period</text>
+<rect x="1879.9" y="555" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1917.9" y="566" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1448" y="612" width="514" height="51" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1457" y="632.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#7F1414" text-anchor="start">Assurance</text>
+<text x="1457" y="651.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Penetration tests, scheme certification with the TTK, image signing and admission policies</text>
+<rect x="1890.3" y="618" width="65.7" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1923.2" y="629" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<rect x="24" y="697" width="1952" height="54" rx="8" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="36" y="716" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#3E4C59" text-anchor="start">LEGEND</text>
+<path d="M36,731 L62,731" stroke="#C62828" stroke-width="1.8" marker-end="url(#m-C62828)"/>
+<text x="70" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Authenticated, encrypted channel</text>
+<path d="M358.6666666666667,731 L384.6666666666667,731" stroke="#2B3640" stroke-width="1.6" marker-end="url(#m-2B3640)"/>
+<text x="392.7" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Synchronous request</text>
+<path d="M681.3333333333334,731 L707.3333333333334,731" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#m-2B3640)"/>
+<text x="715.3" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Asynchronous</text>
+<rect x="1004" y="724" width="60" height="15" rx="7.5" fill="#6A1B9A" stroke="none" stroke-width="1"/>
+<text x="1034" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">PROPOSED</text>
+<text x="1072" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">not in repo</text>
+<rect x="1326.7" y="724" width="69.4" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1361.4" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<text x="1404.1" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">exists today</text>
+<rect x="1649.3" y="724" width="60" height="15" rx="7.5" fill="#546E7A" stroke="none" stroke-width="1"/>
+<text x="1679.3" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">EXTERNAL</text>
+<text x="1717.4" y="735" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">outside the hub</text>
+<line x1="28" y1="773" x2="1972" y2="773" stroke="#D9E2EC" stroke-width="1"/>
+<text x="28" y="793" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="start">Proposed design. Product names are examples. The hooks the repository already has (JWS signing, SDK OAuth2, reporting API Keto / x-user) are reused.</text>
+<text x="1972" y="793" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="end">Evidence register: docs/architecture/analysis/architecture-evidence-register.md</text>
+</svg>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1058" viewBox="0 0 2000 1058" role="img" aria-labelledby="d04a-title d04a-desc" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="d04a-title">04a · Resilience and Recovery: As-Is</title>
+<desc id="d04a-desc">Left: every component runs as a single instance on one host with no restart policy, persistent volume, replication or backup. Right: protocol-level resilience that is implemented and verified (asynchronous decoupling, expiry, idempotency, status queries, ordered positions) and capabilities that are absent. Bottom: seven failure scenarios with expected behaviour, evidence and recovery.</desc>
+<defs></defs>
+<rect x="0" y="0" width="2000" height="1058" fill="#FFFFFF"/>
+<rect x="0" y="0" width="2000" height="78" fill="#0F2A47"/>
+<text x="28" y="36" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#FFFFFF" text-anchor="start">04a · Resilience and Recovery: As-Is</text>
+<text x="28" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#C9D6E3" text-anchor="start">Single points of failure in the harness, the resilience built into the Mojaloop protocol and services, and how each failure scenario plays out here</text>
+<text x="1972" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#C9D6E3" text-anchor="end">Architecture v1.0 · 2026-11-04 · Source: mojaloop/ml-core-test-harness v2.15.1</text>
+<rect x="1676" y="18" width="296" height="26" rx="13" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1824" y="35.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" fill="#FFFFFF" text-anchor="middle">AS-IS · WHAT THIS REPOSITORY PROVIDES</text>
+<rect x="24" y="96" width="984" height="669" rx="10" fill="#FFF8F8" stroke="#C62828" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="36" y="116" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#C62828" text-anchor="start">SINGLE POINTS OF FAILURE</text>
+<rect x="28" y="132" width="976" height="369" rx="10" fill="#FFFFFF" stroke="#6A4C93" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="40" y="152" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#6A4C93" text-anchor="start">ONE HOST · DOCKER COMPOSE</text>
+<text x="262" y="152" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#3E2A5E" text-anchor="start">no restart policy · no persistent volumes · no replication · no backups</text>
+<rect x="44" y="168" width="304" height="66" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="53" y="188.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B3C75" text-anchor="start">ml-api-adapter</text>
+<text x="53" y="203.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">API + notification handler, 1 container</text>
+<text x="53" y="222.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: no transfer intake and no callbacks to FSPs</text>
+<rect x="302" y="174" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="322" y="185" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="364" y="168" width="304" height="66" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="373" y="188.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B3C75" text-anchor="start">quoting-service + handler</text>
+<text x="373" y="203.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">2 containers, 1 each</text>
+<text x="373" y="222.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: no quotes</text>
+<rect x="622" y="174" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="642" y="185" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="684" y="168" width="304" height="66" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="693" y="188.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B3C75" text-anchor="start">account-lookup-service + oracle</text>
+<text x="693" y="203.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">1 container each</text>
+<text x="693" y="222.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: no payee discovery</text>
+<rect x="942" y="174" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="962" y="185" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="44" y="248" width="304" height="66" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="53" y="268.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B3C75" text-anchor="start">central-ledger</text>
+<text x="53" y="283.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">API + prepare, fulfil, get, admin, timeout in one process</text>
+<text x="53" y="302.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: transfers stop; nothing expires until it is back</text>
+<rect x="302" y="254" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="322" y="265" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="364" y="248" width="304" height="80" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="373" y="268.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B3C75" text-anchor="start">central-handler-position-batch</text>
+<text x="373" y="283.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">1 container</text>
+<text x="373" y="302.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: transfers stay RECEIVED_PREPARE, later</text>
+<text x="373" y="317" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">expire</text>
+<rect x="622" y="254" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="642" y="265" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="684" y="248" width="304" height="66" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="693" y="268.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B3C75" text-anchor="start">central-settlement</text>
+<text x="693" y="283.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">1 container</text>
+<text x="693" y="302.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: no window close or settlement (operator task)</text>
+<rect x="942" y="254" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="962" y="265" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="44" y="342" width="304" height="80" rx="7" fill="#E5F5EC" stroke="#1B7F4C" stroke-width="1.4"/>
+<text x="53" y="362.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0B4A2A" text-anchor="start">kafka</text>
+<text x="53" y="377.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">1 broker · 23 topics · 1 partition · RF 1</text>
+<text x="53" y="396.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: all quotes and transfers stop; unconsumed</text>
+<text x="53" y="411" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">messages lost with the container</text>
+<rect x="302" y="348" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="322" y="359" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="364" y="342" width="304" height="80" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="373" y="362.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#5E3800" text-anchor="start">mysql (central_ledger)</text>
+<text x="373" y="377.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">single instance · no volume · no backup</text>
+<text x="373" y="396.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: ledger, positions, quotes, settlement stop;</text>
+<text x="373" y="411" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">container removal loses all ledger data</text>
+<rect x="622" y="348" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="642" y="359" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="684" y="342" width="304" height="80" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="693" y="362.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#5E3800" text-anchor="start">mysql-als · objstore · redis</text>
+<text x="693" y="377.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">single instances, no auth</text>
+<text x="693" y="396.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">If it fails: lookups stop · object store / reporting stop ·</text>
+<text x="693" y="411" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">proxy cache rebuilt</text>
+<rect x="942" y="348" width="40" height="15" rx="7.5" fill="#C62828" stroke="none" stroke-width="1"/>
+<text x="962" y="359" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SPOF</text>
+<rect x="44" y="436" width="944" height="51" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<text x="53" y="456.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2B4A17" text-anchor="start">FSP side (per participant)</text>
+<text x="53" y="476.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">SDK Scheme Adapter + its Redis: single containers. If either fails mid-transfer the FSP loses in-flight state and must resolve the outcome with GET /transfers/{id}.</text>
+<rect x="44" y="515" width="944" height="79" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="53" y="535.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#3D3500" text-anchor="start">Recovery here means rebuilding (measured in the labs)</text>
+<text x="53" y="554.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#C9B458" text-anchor="start">•</text>
+<text x="64" y="554.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">First image pull: ~11.2 GB, ~25 min · docker compose up -d of the standard stack: ~5.5 min</text>
+<text x="53" y="569" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#C9B458" text-anchor="start">•</text>
+<text x="64" y="569" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Golden-path provisioning: ~4 min · P2P test re-run on a warm stack: ~18 s</text>
+<rect x="1028" y="96" width="948" height="669" rx="10" fill="#F7FAFE" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1040" y="116" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="start">RESILIENCE BUILT INTO THE PROTOCOL AND SERVICES</text>
+<text x="53" y="583.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#C9B458" text-anchor="start">•</text>
+<text x="64" y="583.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Any data from before the rebuild is gone; there is nothing to restore from</text>
+<rect x="1044" y="136" width="452" height="92" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1053" y="156.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Asynchronous decoupling</text>
+<text x="1053" y="175.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">APIs answer 202 after publishing to Kafka; handlers work independently of the caller</text>
+<text x="1053" y="190" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(verified, T5)</text>
+<rect x="1402.7" y="142" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1446.3" y="153" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1508" y="136" width="452" height="92" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1517" y="156.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Transfer expiry</text>
+<text x="1517" y="175.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Every transfer has an expiration; the timeout handler (cron every 15 s) aborts it and</text>
+<text x="1517" y="190" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">releases funds: 3303 (verified, M8)</text>
+<rect x="1866.7" y="142" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1910.3" y="153" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1044" y="238" width="452" height="92" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1053" y="258.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Idempotent resend</text>
+<text x="1053" y="277.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Same ID + same body → no double processing, current state re-sent; changed body →</text>
+<text x="1053" y="292" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">3106 (verified, T4/T5)</text>
+<rect x="1402.7" y="244" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1446.3" y="255" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1508" y="238" width="452" height="92" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1517" y="258.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Status query</text>
+<text x="1517" y="277.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">GET /transfers/{id} and GET /quotes/{id} let an FSP recover after a timeout (verified, M9)</text>
+<rect x="1866.7" y="244" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1910.3" y="255" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1044" y="340" width="452" height="92" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1053" y="360.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Ordered position updates</text>
+<text x="1053" y="379.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Position messages keyed by participant account; batch applied in one DB transaction</text>
+<text x="1053" y="394" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(verified keys, T5)</text>
+<rect x="1402.7" y="346" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1446.3" y="357" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1508" y="340" width="452" height="92" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1517" y="360.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Start-up dependency wait</text>
+<text x="1517" y="379.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">wait4 retries each dependency 60 × 10 s; 17 Compose health checks</text>
+<rect x="1866.7" y="346" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1910.3" y="357" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<text x="1044" y="460" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#616E7C" text-anchor="start">ABSENT IN THIS REPOSITORY</text>
+<rect x="1044" y="468" width="452" height="60" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1053" y="488.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#616E7C" text-anchor="start">Dead-letter queues</text>
+<text x="1053" y="507.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">No DLQ topics or handler configuration found</text>
+<rect x="1408" y="474" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1449" y="485" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1508" y="468" width="452" height="60" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1517" y="488.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#616E7C" text-anchor="start">Callback retry policy</text>
+<text x="1517" y="507.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Not configured here (behaviour unverified)</text>
+<rect x="1872" y="474" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1913" y="485" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1044" y="538" width="452" height="60" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1053" y="558.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#616E7C" text-anchor="start">Restart policies</text>
+<text x="1053" y="577.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">None on switch services or data stores</text>
+<rect x="1408" y="544" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1449" y="555" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1508" y="538" width="452" height="60" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1517" y="558.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#616E7C" text-anchor="start">Replication and backups</text>
+<text x="1517" y="577.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Single MySQL, Kafka RF 1, no volumes</text>
+<rect x="1872" y="544" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1913" y="555" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1044" y="608" width="452" height="60" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1053" y="628.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#616E7C" text-anchor="start">RPO / RTO</text>
+<text x="1053" y="647.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Not defined anywhere: a design decision</text>
+<rect x="1408" y="614" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1449" y="625" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1508" y="608" width="452" height="60" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1517" y="628.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#616E7C" text-anchor="start">Failure testing</text>
+<text x="1517" y="647.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">No chaos or fault-injection tests in the repo</text>
+<rect x="1872" y="614" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1913" y="625" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1044" y="686" width="916" height="65" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="1053" y="706.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#3D3500" text-anchor="start">Verified timing hazard (M10 lab): layers time out at different moments</text>
+<text x="1053" y="725.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Payee core banking slowed to 75 s → payer SDK gave up at ~44 s → switch expired the transfer at ~62 s (3303) → the payee still credited the customer at 75 s: a reconciliation break.</text>
+<text x="1053" y="740" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Rule: every layer's timeout must be shorter than the transfer expiration.</text>
+<text x="24" y="793" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#0F2A47" text-anchor="start">FAILURE SCENARIOS IN THIS HARNESS</text>
+<rect x="24" y="805" width="1952" height="25.9" rx="0" fill="#0F2A47" stroke="none" stroke-width="1"/>
+<text x="42" y="821" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">#</text>
+<text x="66" y="821" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">Scenario</text>
+<text x="296" y="821" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">What happens here</text>
+<text x="1056" y="821" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">Evidence</text>
+<text x="1386" y="821" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">Recovery in the harness</text>
+<text x="42" y="846.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">1</text>
+<text x="66" y="846.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Normal operation</text>
+<text x="296" y="846.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">All 31 services healthy (central-settlement shows unhealthy because of its health-check port bug); P2P test 31/31</text>
+<text x="1056" y="846.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#2E7D32" text-anchor="start">Verified (lab)</text>
+<text x="1386" y="846.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">–</text>
+<line x1="24" y1="854.7" x2="1976" y2="854.7" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="854.7" width="1952" height="23.9" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="42" y="870.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">2</text>
+<text x="66" y="870.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Individual service failure</text>
+<text x="296" y="870.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">The container stays stopped (no restart policy). Flows through it fail; reserved transfers expire once central-ledger and its timeout handler run again</text>
+<text x="1056" y="870.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#8A5300" text-anchor="start">Derived from configuration, not fault-injected</text>
+<text x="1386" y="870.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">docker compose … up -d &lt;service&gt;</text>
+<line x1="24" y1="878.6" x2="1976" y2="878.6" stroke="#D9E2EC" stroke-width="1"/>
+<text x="42" y="894.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">3</text>
+<text x="66" y="894.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Worker node (host) failure</text>
+<text x="296" y="894.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Everything stops: there is one host. Containers do not come back by themselves after a host restart</text>
+<text x="1056" y="894.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#8A5300" text-anchor="start">Derived from configuration</text>
+<text x="1386" y="894.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Restart Docker, then the same compose command</text>
+<line x1="24" y1="902.4" x2="1976" y2="902.4" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="902.4" width="1952" height="23.9" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="42" y="918.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">4</text>
+<text x="66" y="918.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Database failure</text>
+<text x="296" y="918.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Ledger, position, quoting and settlement writes fail. If the container is removed, all ledger data is gone (no volume, no backup)</text>
+<text x="1056" y="918.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#8A5300" text-anchor="start">Derived from configuration</text>
+<text x="1386" y="918.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Restart mysql; if removed, rebuild and re-run provisioning</text>
+<line x1="24" y1="926.3" x2="1976" y2="926.3" stroke="#D9E2EC" stroke-width="1"/>
+<text x="42" y="942" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">5</text>
+<text x="66" y="942" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Message broker failure</text>
+<text x="296" y="942" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">All quotes and transfers stop; unconsumed messages are lost (RF 1, container storage). Reserved transfers later expire (3303)</text>
+<text x="1056" y="942" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#8A5300" text-anchor="start">Derived from configuration</text>
+<text x="1386" y="942" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Restart kafka; kafka-provisioning recreates topics</text>
+<line x1="24" y1="950.2" x2="1976" y2="950.2" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="950.2" width="1952" height="23.9" rx="0" fill="#F5F7FA" stroke="none" stroke-width="1"/>
+<text x="42" y="965.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">6</text>
+<text x="66" y="965.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Complete environment loss</text>
+<text x="296" y="965.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">All state is lost: there are no backups anywhere</text>
+<text x="1056" y="965.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#8A5300" text-anchor="start">Derived from configuration</text>
+<text x="1386" y="965.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Rebuild: compose up (~5.5 min) + TTK provisioning</text>
+<line x1="24" y1="974" x2="1976" y2="974" stroke="#D9E2EC" stroke-width="1"/>
+<text x="42" y="989.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">7</text>
+<text x="66" y="989.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Restoration</text>
+<text x="296" y="989.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Only a clean rebuild exists; there is no restore of earlier data</text>
+<text x="1056" y="989.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#2E7D32" text-anchor="start">Verified: repeated down -v / up cycles in the labs</text>
+<text x="1386" y="989.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Provisioning collections recreate participants, limits and oracles</text>
+<line x1="24" y1="997.9" x2="1976" y2="997.9" stroke="#D9E2EC" stroke-width="1"/>
+<rect x="24" y="805" width="1952" height="192.9" rx="0" fill="none" stroke="#9AA5B1" stroke-width="1"/>
+<line x1="60" y1="805" x2="60" y2="997.9" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="290" y1="805" x2="290" y2="997.9" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1050" y1="805" x2="1050" y2="997.9" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="1380" y1="805" x2="1380" y2="997.9" stroke="#D9E2EC" stroke-width="1"/>
+<line x1="28" y1="1024" x2="1972" y2="1024" stroke="#D9E2EC" stroke-width="1"/>
+<text x="28" y="1044" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="start">&quot;Derived&quot; rows follow from the configuration (no restart policy, no volumes, single instances); they were not fault-injected. The target design is 04b.</text>
+<text x="1972" y="1044" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="end">Evidence register: docs/architecture/analysis/architecture-evidence-register.md</text>
+</svg>
