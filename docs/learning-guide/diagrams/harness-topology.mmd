@@ -1,0 +1,35 @@
+%% What runs on your machine with the standard profiles (see 05-system-architecture.md §2)
+flowchart TB
+    subgraph host["Your machine (Docker, network mojaloop-net)"]
+        subgraph sim["Simulated FSPs"]
+            TTK["mojaloop-testing-toolkit<br/>FSPIOP :4040 (host 9440)<br/>control API :5050 (host 9550)"]
+            UI["TTK UI :6060 (host 9660)"]
+            CLI1["ttk-provisioning (CLI)"]
+            CLI2["ttk-tests (CLI)"]
+            SDKs["payerfsp-sdk, payeefsp-sdk,<br/>testfsp1..4-sdk<br/>(SDK Scheme Adapters :4000/:4001)"]
+            SIM["simulator :8444 (legacy)"]
+        end
+        subgraph sw["Switch"]
+            ALS["account-lookup-service"]
+            ORA["als-msisdn-oracle-svc"]
+            QS["quoting-service + handler"]
+            MLA["ml-api-adapter"]
+            CL["central-ledger"]
+            PBH["central-handler-position-batch"]
+            CS["central-settlement"]
+        end
+        subgraph infra["Infrastructure"]
+            K[("kafka + kafka-provisioning")]
+            M[("mysql")]
+            MA[("mysql-als")]
+            O[("objstore / MongoDB")]
+            R[("redis + per-SDK redis")]
+        end
+    end
+    CLI1 -->|"drives"| TTK
+    CLI2 -->|"drives"| TTK
+    UI --> TTK
+    TTK <-->|"FSPIOP as testingtoolkitdfsp & payeefsp"| sw
+    SDKs <-->|"FSPIOP as payerfsp / payeefsp / testfspN<br/>(golden-path profile)"| sw
+    SDKs -->|"BACKEND_ENDPOINT=TTK:4040/backend"| TTK
+    sw --- infra

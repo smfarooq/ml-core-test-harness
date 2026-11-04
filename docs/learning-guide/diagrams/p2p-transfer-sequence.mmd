@@ -1,0 +1,58 @@
+%% End-to-end P2P payment with switch internals (see 07-payment-transaction-lifecycle.md §2)
+%% Mirrors docker/ml-testing-toolkit/test-cases/collections/tests/p2p.json
+sequenceDiagram
+    autonumber
+    participant PF as Payer FSP
+    participant ALS as Account Lookup
+    participant OR as MSISDN Oracle
+    participant QS as Quoting Service (+handler)
+    participant MLA as ML API Adapter
+    participant K as Kafka
+    participant CL as Central Ledger handlers
+    participant DB as MySQL
+    participant QF as Payee FSP
+
+    Note over PF,QF: Phase 1 - Discovery
+    PF->>ALS: GET /parties/MSISDN/27713803912
+    ALS-->>PF: 202 Accepted
+    ALS->>OR: GET /participants/MSISDN/27713803912
+    OR-->>ALS: 200 {partyList:[{fspId: payeefsp}]}
+    ALS->>QF: GET /parties/MSISDN/27713803912
+    QF-->>ALS: 202
+    QF->>ALS: PUT /parties/MSISDN/27713803912 {party}
+    ALS-->>QF: 200
+    ALS->>PF: PUT /parties/MSISDN/27713803912 {party}
+
+    Note over PF,QF: Phase 2 - Agreement
+    PF->>QS: POST /quotes {quoteId, transactionId, amountType, amount}
+    QS-->>PF: 202
+    QS->>K: topic-quotes-post
+    K->>QS: handler consumes, validates, stores quote
+    QS->>QF: POST /quotes
+    QF->>QS: PUT /quotes/{quoteId} {transferAmount, fees, ilpPacket, condition, expiration}
+    QS->>K: topic-quotes-put
+    QS->>PF: PUT /quotes/{quoteId}
+
+    Note over PF,QF: Phase 3 - Transfer
+    PF->>MLA: POST /transfers {transferId, payerFsp, payeeFsp, amount, ilpPacket, condition, expiration}
+    MLA-->>PF: 202
+    MLA->>K: topic-transfer-prepare
+    K->>CL: Prepare handler: validate + duplicate check
+    CL->>DB: transfer = RECEIVED_PREPARE
+    CL->>K: topic-transfer-position-batch (PREPARE)
+    K->>CL: Position handler: liquidity + NDC check
+    CL->>DB: payer position += amount, state RESERVED
+    CL->>K: topic-notification-event
+    K->>MLA: Notification handler
+    MLA->>QF: POST /transfers
+    QF->>MLA: PUT /transfers/{transferId} {fulfilment, completedTimestamp, transferState: COMMITTED}
+    MLA-->>QF: 200
+    MLA->>K: topic-transfer-fulfil
+    K->>CL: Fulfil handler: SHA-256(fulfilment) == condition?
+    CL->>DB: RECEIVED_FULFIL
+    CL->>K: topic-transfer-position-batch (COMMIT)
+    K->>CL: Position handler: payee position -= amount
+    CL->>DB: COMMITTED (+ assign to open settlement window)
+    CL->>K: topic-notification-event
+    K->>MLA: Notification handler
+    MLA->>PF: PUT /transfers/{transferId} {transferState: COMMITTED, fulfilment}

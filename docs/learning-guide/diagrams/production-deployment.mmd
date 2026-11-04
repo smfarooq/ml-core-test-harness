@@ -1,0 +1,56 @@
+%% Reference production deployment (RECOMMENDATION, not defined by this repository)
+%% See 15-production-deployment.md §3
+flowchart TB
+    subgraph FSPs["Participating FSPs"]
+        F1["Bank A connector"]
+        F2["Wallet B connector"]
+    end
+    subgraph Edge["Edge zone (DMZ)"]
+        LB["L4/L7 load balancer + WAF<br/>DDoS protection"]
+        GW["API gateway<br/>mTLS termination, OAuth2,<br/>rate limits, IP allow-lists"]
+    end
+    subgraph K8s["Kubernetes cluster(s), multi-AZ"]
+        subgraph NSsw["namespace: mojaloop (switch)"]
+            API["ALS / quoting / ML API adapter<br/>(stateless, HPA)"]
+            HND["central-ledger handlers<br/>prepare / position(-batch) / fulfil / get / admin / timeout"]
+            CLAPI["central-ledger admin API"]
+            CS["central-settlement"]
+            ORA["Oracles"]
+            NOT["Notification handlers"]
+        end
+        subgraph NSops["namespace: ops"]
+            FP["Finance Portal / back-office"]
+            MON["Prometheus, Alertmanager, Grafana"]
+            LOG["Log shipping (EFK / Loki)"]
+            TR["Tracing (OTel collector)"]
+        end
+    end
+    subgraph Data["Data tier (HA)"]
+        KAF[("Kafka cluster<br/>3+ brokers, RF=3")]
+        SQL[("MySQL HA<br/>primary + replicas, PITR")]
+        MDB[("MongoDB replica set")]
+        RED[("Redis HA")]
+    end
+    subgraph Sec["Security services"]
+        VAULT["Secrets manager / HSM"]
+        PKI["PKI / certificate management"]
+    end
+    DR["DR site<br/>replicated DB + Kafka mirror"]
+    SB["Settlement bank (RTGS)"]
+    OPS(["Hub operations team"])
+
+    F1 & F2 <-->|"FSPIOP over mTLS + JWS"| LB --> GW --> API
+    API --> KAF --> HND --> SQL
+    HND --> KAF --> NOT -->|"callbacks via egress gateway"| GW
+    CLAPI --> SQL
+    CS --> SQL
+    API --> RED
+    HND --> MDB
+    OPS --> FP --> CLAPI
+    OPS --> CS
+    CS -.->|"settlement instructions"| SB
+    MON -.-> NSsw
+    VAULT -.-> NSsw
+    PKI -.-> GW
+    SQL -.->|"replication"| DR
+    KAF -.->|"mirror"| DR

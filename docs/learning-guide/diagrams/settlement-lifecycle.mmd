@@ -1,0 +1,21 @@
+%% Settlement window and settlement lifecycle (see 07-payment-transaction-lifecycle.md §7)
+%% Verified against golden_path/settlement_management/*.json and upstream central-ledger seeds
+%% S_PENDING = PENDING_SETTLEMENT and S_SETTLED = SETTLED for the settlement object (renamed to avoid clashes)
+stateDiagram-v2
+    direction LR
+    state "Settlement window" as W {
+        [*] --> OPEN
+        OPEN --> CLOSED: POST /settlementWindows/id state=CLOSED
+        CLOSED --> PENDING_SETTLEMENT: included in a settlement
+        PENDING_SETTLEMENT --> SETTLED
+        PENDING_SETTLEMENT --> ABORTED: settlement aborted (window reusable)
+    }
+    state "Settlement" as S {
+        [*] --> S_PENDING: POST /settlements
+        S_PENDING --> PS_TRANSFERS_RECORDED: PUT /settlements/id
+        PS_TRANSFERS_RECORDED --> PS_TRANSFERS_RESERVED: PUT (reserve)
+        PS_TRANSFERS_RESERVED --> PS_TRANSFERS_COMMITTED: PUT (commit)
+        PS_TRANSFERS_COMMITTED --> SETTLING: some accounts settled
+        SETTLING --> S_SETTLED: all accounts settled
+        PS_TRANSFERS_COMMITTED --> S_SETTLED: all accounts settled
+    }
