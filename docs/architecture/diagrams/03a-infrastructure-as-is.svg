@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="945" viewBox="0 0 2000 945" role="img" aria-labelledby="d03a-title d03a-desc" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="d03a-title">03a · Infrastructure Architecture: As-Is</title>
+<desc id="d03a-desc">Left: a single Docker host with the mojaloop-net network, switch services, data stores, simulated FSPs, optional profiles and the separate monitoring project, with published ports, measured resources and missing persistence. Right: evidence of an external Kubernetes cluster (namespaces mojaloop, stateful-resources, argocd, redpanda; Istio gateway; Helm release moja) and the items not present in the repository.</desc>
+<defs><marker id="m-00796B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#00796B"/></marker><marker id="m-6A4C93" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#6A4C93"/></marker></defs>
+<rect x="0" y="0" width="2000" height="945" fill="#FFFFFF"/>
+<rect x="0" y="0" width="2000" height="78" fill="#0F2A47"/>
+<text x="28" y="36" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#FFFFFF" text-anchor="start">03a · Infrastructure Architecture: As-Is</text>
+<text x="28" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#C9D6E3" text-anchor="start">What the repository actually deploys (Docker Compose on one host) and what its Kubernetes files reveal about the cluster they were written for</text>
+<text x="1972" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#C9D6E3" text-anchor="end">Architecture v1.0 · 2026-11-04 · Source: mojaloop/ml-core-test-harness v2.15.1</text>
+<rect x="1676" y="18" width="296" height="26" rx="13" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1824" y="35.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" fill="#FFFFFF" text-anchor="middle">AS-IS · WHAT THIS REPOSITORY PROVIDES</text>
+<rect x="24" y="96" width="1180" height="793" rx="10" fill="#FBF9FE" stroke="#6A4C93" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="36" y="116" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#6A4C93" text-anchor="start">A · LOCAL DEPLOYMENT: DOCKER COMPOSE</text>
+<text x="354.8" y="116" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#3E2A5E" text-anchor="start">docker-compose.yml + profiles · tested on Windows 11, Docker Desktop (WSL2), Compose v5.6.1</text>
+<rect x="44" y="136" width="250" height="115" rx="7" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.4"/>
+<text x="53" y="157.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#28323C" text-anchor="start">Public container</text>
+<text x="53" y="174.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#28323C" text-anchor="start">registries</text>
+<text x="53" y="194.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Docker Hub mojaloop/*, bitnamilegacy/kafka,</text>
+<text x="53" y="209.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">mysql/mysql-server, mongo, redis · quay.io ·</text>
+<text x="53" y="224.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">gcr.io · GHCR</text>
+<text x="53" y="239.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">First pull: ~11.2 GB, ~25 min</text>
+<rect x="222.3" y="142" width="65.7" height="15" rx="7.5" fill="#546E7A" stroke="none" stroke-width="1"/>
+<text x="255.2" y="153" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">EXTERNAL</text>
+<rect x="44" y="267" width="250" height="83" rx="7" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.4"/>
+<text x="53" y="288.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#28323C" text-anchor="start">CI/CD (repository)</text>
+<text x="53" y="308.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">CircleCI · mojaloop/build orb on release tags</text>
+<text x="53" y="323.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Grype image scanning (.grype.yaml)</text>
+<text x="53" y="338.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">SBOM (sbom-v2.15.1.csv)</text>
+<rect x="211.9" y="273" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="249.9" y="284" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<circle cx="170" cy="391" r="9" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.5"/>
+<path d="M154,420 q0,-18 16,-18 q16,0 16,18 z" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.5"/>
+<text x="170" y="436" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#28323C" text-anchor="middle">Engineer / tester</text>
+<text x="170" y="452" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-style="italic" fill="#52606D" text-anchor="middle">docker compose</text>
+<text x="170" y="466" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-style="italic" fill="#52606D" text-anchor="middle">--profile … up</text>
+<rect x="44" y="508" width="260" height="207" rx="10" fill="#FFFFFF" stroke="#0F7C8C" stroke-width="1.5" stroke-dasharray="8 5" fill-opacity="0.55"/>
+<text x="56" y="528" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#0F7C8C" text-anchor="start">MONITORING PROJECT</text>
+<text x="221.9" y="528" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#06474F" text-anchor="start">separate</text>
+<rect x="56" y="544" width="236" height="157" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="65" y="565.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">docker-compose-monitoring.yml</text>
+<text x="65" y="585.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Prometheus, Grafana + renderer,</text>
+<text x="65" y="599.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">node-exporter, cAdvisor, kafka-exporter,</text>
+<text x="65" y="613.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">kafka-mon-ui</text>
+<text x="65" y="627.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Own network monitoring-net; joins</text>
+<text x="65" y="642.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">mojaloop-net (external)</text>
+<text x="65" y="656.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Fails on Docker Desktop for Windows</text>
+<text x="65" y="670.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(node-exporter rslave mount)</text>
+<rect x="222.3" y="680" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="253.6" y="691" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="320" y="136" width="864" height="652" rx="10" fill="#FFFFFF" stroke="#6A4C93" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="332" y="156" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#6A4C93" text-anchor="start">SINGLE HOST · DOCKER ENGINE</text>
+<text x="562.2" y="156" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#3E2A5E" text-anchor="start">no clustering, no node redundancy</text>
+<rect x="336" y="172" width="832" height="432" rx="10" fill="#F7FAFE" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="348" y="192" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="start">NETWORK MOJALOOP-NET</text>
+<text x="540.3" y="192" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#0B3C75" text-anchor="start">one flat bridge network · Docker DNS by container name</text>
+<rect x="352" y="208" width="400" height="98" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="361" y="229.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">Switch services: profile all-services</text>
+<text x="361" y="249.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1F5FA8" text-anchor="start">•</text>
+<text x="372" y="249.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">central-ledger (API + handlers) · central-handler-position-batch</text>
+<text x="361" y="264.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1F5FA8" text-anchor="start">•</text>
+<text x="372" y="264.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">ml-api-adapter · quoting-service · quoting-service-handler</text>
+<text x="361" y="279.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1F5FA8" text-anchor="start">•</text>
+<text x="372" y="279.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">account-lookup-service · als-msisdn-oracle-svc · central-settlement</text>
+<text x="361" y="294.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1F5FA8" text-anchor="start">•</text>
+<text x="372" y="294.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">1 replica each · no restart policy · run as root</text>
+<rect x="669.9" y="214" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="707.9" y="225" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="768" y="208" width="384" height="98" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="777" y="229.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#5E3800" text-anchor="start">Data and messaging</text>
+<text x="777" y="249.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#B26B00" text-anchor="start">•</text>
+<text x="788" y="249.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">kafka (KRaft, 1 broker) + kafka-provisioning (23 topics, RF 1)</text>
+<text x="777" y="264.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#B26B00" text-anchor="start">•</text>
+<text x="788" y="264.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">mysql (central_ledger) · mysql-als (account_lookup, oracle_msisdn)</text>
+<text x="777" y="279.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#B26B00" text-anchor="start">•</text>
+<text x="788" y="279.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">objstore (MongoDB 8.0.6) · redis 6.2.4</text>
+<text x="777" y="294.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#B26B00" text-anchor="start">•</text>
+<text x="788" y="294.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">No named volumes: data lives in container storage</text>
+<rect x="1069.9" y="214" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1107.9" y="225" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="352" y="322" width="400" height="83" rx="7" fill="#FFF9E3" stroke="#8A7400" stroke-width="1.4"/>
+<text x="361" y="343.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#4F4300" text-anchor="start">Simulated participants and tests</text>
+<text x="361" y="363.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#8A7400" text-anchor="start">•</text>
+<text x="372" y="363.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">mojaloop-testing-toolkit (+ UI) · ttk-provisioning / ttk-tests CLI jobs</text>
+<text x="361" y="378.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#8A7400" text-anchor="start">•</text>
+<text x="372" y="378.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">payerfsp-, payeefsp-, testfsp1..4-sdk, each with its own Redis</text>
+<text x="361" y="393.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#8A7400" text-anchor="start">•</text>
+<text x="372" y="393.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">simulator (legacy, v12.2.4)</text>
+<rect x="669.9" y="328" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="707.9" y="339" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="768" y="322" width="384" height="98" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="777" y="343.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">Optional profiles</text>
+<text x="777" y="363.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="788" y="363.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">fx: FX SDKs and FX provisioning/tests</text>
+<text x="777" y="378.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="788" y="378.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">finance-portal: 5 portal services + fp-proxy + cAdvisor</text>
+<text x="777" y="393.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="788" y="393.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">debug: kafka-debug-ui (Redpanda Console)</text>
+<text x="777" y="408.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="788" y="408.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">merchant-registry: template, not runnable</text>
+<rect x="1083.3" y="328" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1114.6" y="339" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="352" y="436" width="800" height="68" rx="7" fill="#F5F1FA" stroke="#6A4C93" stroke-width="1.4"/>
+<text x="361" y="457.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#3E2A5E" text-anchor="start">Start-up chain (every switch container)</text>
+<text x="361" y="477.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">config-modifier merges configs/*.js into the image's default.json → wait4 waits for dependencies (60 × 10 s) → npm run migrate (where needed) → start.</text>
+<text x="361" y="492.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Compose health checks: 17 (central-settlement's uses the wrong port).</text>
+<rect x="1058.7" y="442" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1102.3" y="453" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="352" y="520" width="800" height="68" rx="7" fill="#F5F1FA" stroke="#6A4C93" stroke-width="1.4"/>
+<text x="361" y="541.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#3E2A5E" text-anchor="start">Performance variant: docker-compose-perf.yml</text>
+<text x="361" y="561.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Every handler is its own container with a replica variable (QS_REPLICAS, ALS_REPLICAS, CENTRAL_LEDGER_*_REPLICAS, ML_*_REPLICAS, all 1</text>
+<text x="361" y="576.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">in .env), separate mysql-cl, 8 simulated FSPs, ISO 20022 mode, 25 partitions for position topics.</text>
+<rect x="1069.9" y="526" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1107.9" y="537" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="352" y="620" width="800" height="68" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="361" y="641.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#7F1414" text-anchor="start">Published host ports (everything else is internal)</text>
+<text x="361" y="661.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">TTK 9440 / 9550 / 9660 · MongoDB 27017 · Redis 6379, 6381–6391 · finance portal 9400, 9401, 9302, 9304, 8082 · Kafka UI 8080 (debug) · switch</text>
+<text x="361" y="676.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">service ports are not published</text>
+<rect x="352" y="704" width="392" height="68" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="361" y="725.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#3D3500" text-anchor="start">Measured at idle (not specified anywhere)</text>
+<text x="361" y="745.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Standard stack: 31 services, ~4.5 GiB · finance-portal stack: 37</text>
+<text x="361" y="760.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">containers, ~5.4 GiB</text>
+<rect x="760" y="704" width="392" height="53" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="769" y="725.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#3D3500" text-anchor="start">No CPU or memory limits</text>
+<text x="769" y="745.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">No requests, limits or reservations in any compose or Kubernetes file</text>
+<path d="M294,193.5 L320,193.5" fill="none" stroke="#00796B" stroke-width="1.8" stroke-dasharray="11 4 2 4" stroke-linejoin="round" marker-end="url(#m-00796B)"/>
+<rect x="1228" y="96" width="748" height="793" rx="10" fill="#FBF9FE" stroke="#6A4C93" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1240" y="116" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#6A4C93" text-anchor="start">B · KUBERNETES EVIDENCE</text>
+<text x="1441.3" y="116" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#3E2A5E" text-anchor="start">k8s-mojaloop-perf-tuning patches an existing cluster</text>
+<path d="M230,404 L320,404" fill="none" stroke="#6A4C93" stroke-width="1.4" stroke-dasharray="3 3" stroke-linejoin="round" marker-end="url(#m-6A4C93)"/>
+<rect x="236.5" y="382.5" width="77.1" height="19.1" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="275" y="395.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#6A4C93" text-anchor="middle">compose CLI</text>
+<rect x="1244" y="136" width="716" height="474" rx="10" fill="#FFFFFF" stroke="#5B6770" stroke-width="1.5" stroke-dasharray="8 5" fill-opacity="0.55"/>
+<text x="1256" y="156" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#5B6770" text-anchor="start">EXTERNAL CLUSTER</text>
+<text x="1407.9" y="156" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#28323C" text-anchor="start">on-premises bare metal (*.devbaremetal.moja-onprem.net) · not deployed by this repo</text>
+<rect x="1884.3" y="144" width="65.7" height="15" rx="7.5" fill="#546E7A" stroke="none" stroke-width="1"/>
+<text x="1917.2" y="155" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">EXTERNAL</text>
+<rect x="1260" y="176" width="684" height="113" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1269" y="197.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">Namespace mojaloop · Helm release &quot;moja&quot;</text>
+<text x="1269" y="217.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1F5FA8" text-anchor="start">•</text>
+<text x="1280" y="217.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Deployments: moja-centralledger-service, …-handler-transfer-prepare / -fulfil / -get, …-handler-admin-transfer,</text>
+<text x="1280" y="232.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">…-handler-timeout, moja-handler-pos-batch, moja-ml-api-adapter-service, …-handler-notification, moja-account-lookup-service,</text>
+<text x="1280" y="247.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">moja-quoting-service, moja-quoting-service-handler</text>
+<text x="1269" y="262.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1F5FA8" text-anchor="start">•</text>
+<text x="1280" y="262.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">ConfigMap config-override mounted as .CLEDGrc, .MLAPIrc, .QUOTErc, .EVENT_SDKrc · init container run-migration</text>
+<text x="1269" y="277.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1F5FA8" text-anchor="start">•</text>
+<text x="1280" y="277.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Event SDK sidecar toggle (EVENT_SDK_SIDECAR_DISABLED) · ledger service scaled to 8 replicas by patch.sh schema</text>
+<rect x="1861.9" y="182" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1899.9" y="193" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1260" y="301" width="684" height="68" rx="7" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="1269" y="322.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#5E3800" text-anchor="start">Namespace stateful-resources</text>
+<text x="1269" y="342.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#B26B00" text-anchor="start">•</text>
+<text x="1280" y="342.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Kafka: mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092</text>
+<text x="1269" y="357.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#B26B00" text-anchor="start">•</text>
+<text x="1280" y="357.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">MongoDB: mongodb-reporting-events-mongodb (reporting events)</text>
+<rect x="1861.9" y="307" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1899.9" y="318" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1260" y="381" width="684" height="68" rx="7" fill="#F5F1FA" stroke="#6A4C93" stroke-width="1.4"/>
+<text x="1269" y="402.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#3E2A5E" text-anchor="start">Namespace argocd · GitOps</text>
+<text x="1269" y="422.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#6A4C93" text-anchor="start">•</text>
+<text x="1280" y="422.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">ArgoCD Application redpanda-app (Helm chart from charts.redpanda.com, automated prune + self-heal)</text>
+<text x="1269" y="437.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#6A4C93" text-anchor="start">•</text>
+<text x="1280" y="437.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">TTK jobs moja-ml-ttk-test-setup and moja-ml-ttk-test-val-gp run as PostSync hooks · secretRef …-aws-creds</text>
+<rect x="1861.9" y="387" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1899.9" y="398" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1260" y="461" width="684" height="68" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1269" y="482.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#7F1414" text-anchor="start">Istio service mesh</text>
+<text x="1269" y="502.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#C62828" text-anchor="start">•</text>
+<text x="1280" y="502.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">VirtualService → gateway istio-ingress-int/internal-wildcard-gateway (internal ingress)</text>
+<text x="1269" y="517.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#C62828" text-anchor="start">•</text>
+<text x="1280" y="517.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">sidecar.istio.io/inject: 'false' on test jobs</text>
+<rect x="1861.9" y="467" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1899.9" y="478" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1260" y="541" width="684" height="53" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4"/>
+<text x="1269" y="562.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">Namespace redpanda</text>
+<text x="1269" y="582.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="1280" y="582.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Redpanda Console (Kafka UI) installed by patch.sh init</text>
+<rect x="1861.9" y="547" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1899.9" y="558" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1244" y="626" width="716" height="53" rx="7" fill="#FFF9E3" stroke="#8A7400" stroke-width="1.4"/>
+<text x="1253" y="647.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#4F4300" text-anchor="start">In-cluster load testing</text>
+<text x="1253" y="667.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Dockerfile builds a k6-operator runner image with packages/k6-tests; config-k8s/ holds 36 Kubernetes scenario configs</text>
+<rect x="1866.7" y="632" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1910.3" y="643" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="1244" y="695" width="716" height="68" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1253" y="716.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#616E7C" text-anchor="start">Not in this repository (shown nowhere as existing)</text>
+<text x="1253" y="736.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Helm charts and values · node pools and control-plane layout · StorageClasses and PersistentVolumes · NetworkPolicies · HPA / VPA ·</text>
+<text x="1253" y="751.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">PodDisruptionBudgets · CPU and memory requests or limits · ingress for the FSPIOP APIs · secrets definitions</text>
+<rect x="1872" y="701" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1913" y="712" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1244" y="779" width="716" height="94" rx="8" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="1256" y="798" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#3E4C59" text-anchor="start">LEGEND</text>
+<rect x="1256" y="806" width="26" height="15" rx="3" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.3"/>
+<text x="1290" y="817" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Mojaloop service group</text>
+<rect x="1256" y="826" width="26" height="15" rx="3" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.3"/>
+<text x="1290" y="837" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Data / messaging</text>
+<rect x="1256" y="846" width="26" height="15" rx="3" fill="#FFF9E3" stroke="#8A7400" stroke-width="1.3"/>
+<text x="1290" y="857" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Test tooling</text>
+<rect x="1489.3" y="806" width="26" height="15" rx="3" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.3" stroke-dasharray="5 3"/>
+<text x="1523.3" y="817" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Optional / operations</text>
+<rect x="1489.3" y="826" width="26" height="15" rx="3" fill="#FDECEC" stroke="#C62828" stroke-width="1.3"/>
+<text x="1523.3" y="837" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Security-relevant</text>
+<rect x="1489.3" y="846" width="26" height="15" rx="3" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.3"/>
+<text x="1523.3" y="857" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Not present</text>
+<path d="M1722.6666666666667,813 L1748.6666666666667,813" stroke="#00796B" stroke-width="1.8" stroke-dasharray="11 4 2 4" marker-end="url(#m-00796B)"/>
+<text x="1756.7" y="817" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">External dependency</text>
+<path d="M1722.6666666666667,833 L1748.6666666666667,833" stroke="#6A4C93" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#m-6A4C93)"/>
+<text x="1756.7" y="837" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Management action</text>
+<line x1="28" y1="911" x2="1972" y2="911" stroke="#D9E2EC" stroke-width="1"/>
+<text x="28" y="931" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="start">Kubernetes facts come only from k8s-mojaloop-perf-tuning/ and packages/k6-tests/config-k8s/. The production design is in 03b.</text>
+<text x="1972" y="931" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="end">Evidence register: docs/architecture/analysis/architecture-evidence-register.md</text>
+</svg>

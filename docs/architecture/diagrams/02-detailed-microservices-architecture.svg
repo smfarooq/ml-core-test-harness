@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1230" viewBox="0 0 2000 1230" role="img" aria-labelledby="d02-title d02-desc" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title id="d02-title">02 · Detailed Application and Microservices Architecture</title>
+<desc id="d02-desc">Participants call the FSPIOP API layer. API services publish to Kafka; handler processes consume, update MySQL and publish onward; the notification handler calls FSPs back. Account lookup uses HTTP only. Admin, settlement, observability, IAM, reporting and configuration domains are shown with their actual status.</desc>
+<defs><marker id="m-2B3640" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#2B3640"/></marker><marker id="m-B26B00" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#B26B00"/></marker></defs>
+<rect x="0" y="0" width="2000" height="1230" fill="#FFFFFF"/>
+<rect x="0" y="0" width="2000" height="78" fill="#0F2A47"/>
+<text x="28" y="36" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#FFFFFF" text-anchor="start">02 · Detailed Application and Microservices Architecture</text>
+<text x="28" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#C9D6E3" text-anchor="start">Every switch service, handler and store this repository runs, grouped by domain, with inputs, outputs and communication style</text>
+<text x="1972" y="61" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#C9D6E3" text-anchor="end">Architecture v1.0 · 2026-11-04 · Source: mojaloop/ml-core-test-harness v2.15.1</text>
+<rect x="1676" y="18" width="296" height="26" rx="13" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1824" y="35.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" fill="#FFFFFF" text-anchor="middle">AS-IS · WHAT THIS REPOSITORY PROVIDES</text>
+<rect x="30" y="134" width="240" height="932" rx="10" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="43" y="600" transform="rotate(-90 43 600)" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="#5B6770" text-anchor="middle">PARTICIPANTS  ·  external</text>
+<rect x="48" y="150" width="212" height="147" rx="7" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.4"/>
+<text x="57" y="171.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#2B4A17" text-anchor="start">Mojaloop Connector</text>
+<text x="57" y="187" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">SDK Scheme Adapter v24.7.0</text>
+<text x="57" y="207" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">In: FSPIOP :4000 (from switch)</text>
+<text x="57" y="221.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">In: Outbound API :4001 (from FSP)</text>
+<text x="57" y="236.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Out: FSPIOP to switch; Backend API</text>
+<text x="57" y="251.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">to FSP</text>
+<text x="57" y="266.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">State: own Redis</text>
+<rect x="176.9" y="276" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="214.9" y="287" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="48" y="343" width="212" height="102" rx="7" fill="#F1F3F6" stroke="#5B6770" stroke-width="1.4"/>
+<text x="57" y="364.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#28323C" text-anchor="start">DFSP / FXP systems</text>
+<text x="57" y="384.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Core banking, wallets, FX providers</text>
+<text x="57" y="399.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Backend API ⇄ connector (sync</text>
+<text x="57" y="414.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">HTTP)</text>
+<rect x="187.3" y="424" width="65.7" height="15" rx="7.5" fill="#546E7A" stroke="none" stroke-width="1"/>
+<text x="220.2" y="435" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">EXTERNAL</text>
+<path d="M154,343 L154,297" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<rect x="90.7" y="310.8" width="126.6" height="18.4" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="154" y="323.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">Backend / Outbound API</text>
+<rect x="48" y="469" width="212" height="132" rx="7" fill="#FFF9E3" stroke="#8A7400" stroke-width="1.4"/>
+<text x="57" y="490.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#4F4300" text-anchor="start">Testing Toolkit (TTK)</text>
+<text x="57" y="506" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">v18.11.2 · :4040 / :5050</text>
+<text x="57" y="526" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Plays FSPs via callback rules</text>
+<text x="57" y="540.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Plays the hub operator (provisioning</text>
+<text x="57" y="555.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">collections)</text>
+<text x="57" y="570.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Backend for the SDK connectors</text>
+<rect x="176.9" y="580" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="214.9" y="591" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="48" y="625" width="212" height="82" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="57" y="645.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#3D3500" text-anchor="start">Hub operator</text>
+<text x="57" y="665.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Calls the admin, ALS admin and</text>
+<text x="57" y="680.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">settlement APIs (no auth here). In</text>
+<text x="57" y="695.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">tests the TTK does this.</text>
+<rect x="330" y="134" width="780" height="152" rx="10" fill="#FFFFFF" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="342" y="154" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="start">FSPIOP API LAYER</text>
+<text x="481.2" y="154" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#0B3C75" text-anchor="start">participant-facing · quotes and transfers</text>
+<rect x="346" y="166" width="366" height="83" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="355" y="187.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">Quoting Service: API</text>
+<text x="355" y="203" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">quoting-service v17.8.0 · :3002 · Node.js</text>
+<text x="355" y="223" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">In: POST /quotes · PUT /quotes/{id} · /fxQuotes · /bulkQuotes</text>
+<text x="355" y="237.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Out: 202 Accepted → publishes quotes topics</text>
+<rect x="629.9" y="172" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="667.9" y="183" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="728" y="166" width="366" height="83" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="737" y="187.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">ML API Adapter: API</text>
+<text x="737" y="203" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#52606D" text-anchor="start">ml-api-adapter v16.4.2 · :3000 · Node.js</text>
+<text x="737" y="223" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">In: POST /transfers · PUT /transfers/{id} · /fxTransfers</text>
+<text x="737" y="237.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Out: 202 Accepted → publishes transfer topics</text>
+<rect x="1011.9" y="172" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1049.9" y="183" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1130" y="134" width="220" height="286" rx="10" fill="#FFFFFF" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1142" y="154" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="start">HUB ADMINISTRATION</text>
+<rect x="1142" y="166" width="186" height="132" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1151" y="187.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">Central Ledger: admin</text>
+<text x="1151" y="204.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">API</text>
+<text x="1151" y="219.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">central-ledger v19.4.4 · :3001</text>
+<text x="1151" y="238.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Participants, accounts, limits,</text>
+<text x="1151" y="252.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">endpoints</text>
+<text x="1151" y="267.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Out: admin-transfer (funds in/out)</text>
+<rect x="1244.9" y="277" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1282.9" y="288" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1142" y="310" width="186" height="100" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1151" y="331.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">Central Settlement</text>
+<text x="1151" y="346.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">v17.0.6 · :3007 (/v2)</text>
+<text x="1151" y="365.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Windows and settlements</text>
+<text x="1151" y="379.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">MySQL central_ledger (shared)</text>
+<rect x="1244.9" y="389" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1282.9" y="400" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1370" y="134" width="210" height="932" rx="10" fill="#FFFFFF" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1383" y="600" transform="rotate(-90 1383 600)" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="middle">ACCOUNT LOOKUP  ·  HTTP only</text>
+<rect x="1390" y="150" width="170" height="132" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1399" y="171.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">Account Lookup</text>
+<text x="1399" y="188.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">Service</text>
+<text x="1399" y="203.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">v17.9.1 · :4002 · admin :4001</text>
+<text x="1399" y="222.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: GET /parties, /participants</text>
+<text x="1399" y="236.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Routes by ID type to an oracle;</text>
+<text x="1399" y="251.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">forwards to the payee FSP</text>
+<rect x="1476.9" y="261" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1514.9" y="272" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1390" y="322" width="170" height="113" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="1399" y="343.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B3C75" text-anchor="start">MSISDN Oracle</text>
+<text x="1399" y="358.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">als-msisdn-oracle-svc v0.0.18 ·</text>
+<text x="1399" y="370.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">:3000</text>
+<text x="1399" y="390.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">GET/POST</text>
+<text x="1399" y="404.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">/participants/MSISDN/{id}</text>
+<rect x="1476.9" y="414" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1514.9" y="425" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<path d="M1390,484 v61 a85,9 0 0 0 170,0 v-61" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<ellipse cx="1475" cy="484" rx="85" ry="9" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="1475" y="506" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#5E3800" text-anchor="middle">MySQL mysql-als</text>
+<text x="1475" y="520.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-style="italic" fill="#52606D" text-anchor="middle">account_lookup ·</text>
+<text x="1475" y="534.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-style="italic" fill="#52606D" text-anchor="middle">oracle_msisdn</text>
+<rect x="1436.9" y="550" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1475" y="561" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<path d="M1475,282 L1475,322" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="1440.6" y="292.8" width="68.8" height="18.4" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="1475" y="305.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">which FSP?</text>
+<path d="M1475,435 L1475,475" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<path d="M1560,242.4 L1576,242.4 L1576,505 L1560,505" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<rect x="1390" y="599" width="170" height="109" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="1399" y="619.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#3D3500" text-anchor="start">Why no Kafka here?</text>
+<text x="1399" y="639.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Lookups are request/relay over</text>
+<text x="1399" y="653.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">HTTP: ALS asks the oracle</text>
+<text x="1399" y="667.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">synchronously, then forwards</text>
+<text x="1399" y="682" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">GET /parties to the payee FSP</text>
+<text x="1399" y="696.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">and relays its PUT.</text>
+<rect x="330" y="436" width="1020" height="122" rx="10" fill="#FFFFFF" stroke="#1B7F4C" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="343" y="497" transform="rotate(-90 343 497)" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="#1B7F4C" text-anchor="middle">MESSAGING</text>
+<rect x="350" y="466" width="996" height="67" rx="7" fill="#E5F5EC" stroke="#1B7F4C" stroke-width="1.4"/>
+<rect x="359" y="477" width="3" height="12" rx="1" fill="#1B7F4C" stroke="none" stroke-width="1"/>
+<rect x="363" y="477" width="3" height="12" rx="1" fill="#1B7F4C" stroke="none" stroke-width="1"/>
+<rect x="367" y="477" width="3" height="12" rx="1" fill="#1B7F4C" stroke="none" stroke-width="1"/>
+<rect x="371" y="477" width="3" height="12" rx="1" fill="#1B7F4C" stroke="none" stroke-width="1"/>
+<text x="381" y="487.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#0B4A2A" text-anchor="start">Apache Kafka 3.9 (KRaft): kafka:29092</text>
+<text x="359" y="507.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Transfers: transfer-prepare · transfer-fulfil · transfer-get · transfer-position · transfer-position-batch · notification-event · admin-transfer</text>
+<text x="359" y="521.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Quotes: quotes-post/put/get · fx-quotes-post/put/get · bulkquotes-* · Bulk: bulk-prepare/fulfil/processing/get · Events: event-audit (+ event-log, event-trace)</text>
+<rect x="1263.9" y="472" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1301.9" y="483" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<path d="M529,249 L529,466" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="505" y="348.3" width="47.9" height="18.4" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="529" y="361.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">produce</text>
+<path d="M911,249 L911,466" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="887" y="348.3" width="47.9" height="18.4" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="911" y="361.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">produce</text>
+<path d="M1328,232 L1342,232 L1342,466" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<path d="M1235,410 L1235,466" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<rect x="330" y="582" width="780" height="326" rx="10" fill="#FFFFFF" stroke="#1F5FA8" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="343" y="745" transform="rotate(-90 343 745)" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="#1F5FA8" text-anchor="middle">TRANSACTION PROCESSING</text>
+<rect x="350" y="614" width="135" height="108" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="359" y="634.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Notification handler</text>
+<text x="359" y="648.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">ml-api-adapter</text>
+<text x="359" y="668.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: notification-event</text>
+<text x="359" y="682.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Out: HTTP callbacks</text>
+<text x="359" y="696.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">POST / PUT / PATCH to</text>
+<text x="359" y="711.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">FSPs</text>
+<rect x="501" y="614" width="135" height="137" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="510" y="634.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Quoting handler</text>
+<text x="510" y="648.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">quoting-service</text>
+<text x="510" y="668.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: quotes-*,</text>
+<text x="510" y="682.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">fx-quotes-*</text>
+<text x="510" y="696.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Validate, persist,</text>
+<text x="510" y="711.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">dedupe</text>
+<text x="510" y="725.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Out: HTTP /quotes to</text>
+<text x="510" y="739.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">FSPs</text>
+<rect x="652" y="614" width="135" height="108" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="661" y="634.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Prepare handler</text>
+<text x="661" y="648.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">central-ledger</text>
+<text x="661" y="668.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: transfer-prepare</text>
+<text x="661" y="682.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Validate, dedupe →</text>
+<text x="661" y="696.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">RECEIVED_PREPARE</text>
+<text x="661" y="711.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Out: position-batch</text>
+<rect x="803" y="614" width="135" height="137" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="812" y="634.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Position batch</text>
+<text x="812" y="649.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">handler</text>
+<text x="812" y="663.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">own container</text>
+<text x="812" y="683.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: position-batch</text>
+<text x="812" y="697.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Liquidity + NDC →</text>
+<text x="812" y="711.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">RESERVED /</text>
+<text x="812" y="726.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">COMMITTED</text>
+<text x="812" y="740.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Out: notification-event</text>
+<rect x="954" y="614" width="135" height="108" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="963" y="634.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Fulfil handler</text>
+<text x="963" y="648.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">central-ledger</text>
+<text x="963" y="668.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: transfer-fulfil</text>
+<text x="963" y="682.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">SHA-256 check →</text>
+<text x="963" y="696.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">RECEIVED_FULFIL</text>
+<text x="963" y="711.1" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Out: position-batch</text>
+<rect x="425.5" y="773" width="135" height="80" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="434.5" y="793.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Get handler</text>
+<text x="434.5" y="807.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">central-ledger</text>
+<text x="434.5" y="827.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: transfer-get</text>
+<text x="434.5" y="841.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Out: notification-event</text>
+<rect x="576.5" y="773" width="135" height="80" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="585.5" y="793.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Admin handler</text>
+<text x="585.5" y="807.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">central-ledger</text>
+<text x="585.5" y="827.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">In: admin-transfer</text>
+<text x="585.5" y="841.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Funds in / funds out</text>
+<rect x="727.5" y="773" width="135" height="94" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4"/>
+<text x="736.5" y="793.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Timeout handler</text>
+<text x="736.5" y="807.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">central-ledger</text>
+<text x="736.5" y="827.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Cron every 15 s</text>
+<text x="736.5" y="841.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Expires transfers</text>
+<text x="736.5" y="855.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">(3303)</text>
+<rect x="878.5" y="773" width="135" height="94" rx="7" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="887.5" y="793.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#0B3C75" text-anchor="start">Bulk handlers</text>
+<text x="887.5" y="807.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#52606D" text-anchor="start">central-ledger</text>
+<text x="887.5" y="827.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">bulk-* topics</text>
+<text x="887.5" y="841.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">Idle: no bulk API</text>
+<text x="887.5" y="855.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">adapter</text>
+<path d="M417.5,533 L417.5,614" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<path d="M568.5,533 L568.5,614" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<path d="M719.5,533 L719.5,614" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<path d="M870.5,533 L870.5,614" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<path d="M1021.5,533 L1021.5,614" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<path d="M493,533 L493,773" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<path d="M644,533 L644,773" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<path d="M795,533 L795,773" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<path d="M946,533 L946,773" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)" marker-start="url(#m-2B3640)"/>
+<rect x="330" y="928" width="780" height="138" rx="10" fill="#FFFFFF" stroke="#B26B00" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="343" y="997" transform="rotate(-90 343 997)" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="#B26B00" text-anchor="middle">PERSISTENCE</text>
+<path d="M350,967 v47 a372,9 0 0 0 744,0 v-47" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<ellipse cx="722" cy="967" rx="372" ry="9" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="722" y="989" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#5E3800" text-anchor="middle">MySQL mysql: central_ledger (108 tables)</text>
+<text x="722" y="1003.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-style="italic" fill="#52606D" text-anchor="middle">participants · accounts · limits · positions · transfers + state history · quotes · settlement · shared by ledger, settlement, quoting, reporting</text>
+<rect x="683.9" y="1019" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="722" y="1030" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<path d="M568.5,751 L568.5,958" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<path d="M719.5,722 L719.5,958" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<path d="M870.5,751 L870.5,958" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<path d="M1021.5,722 L1021.5,958" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<path d="M493,853 L493,958" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<path d="M644,853 L644,958" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<path d="M795,867 L795,958" fill="none" stroke="#B26B00" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-B26B00)"/>
+<rect x="1130" y="582" width="220" height="484" rx="10" fill="#FFFFFF" stroke="#B26B00" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1142" y="602" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#B26B00" text-anchor="start">CACHES AND DOCUMENTS</text>
+<path d="M1142,625 v97 a98,9 0 0 0 196,0 v-97" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<ellipse cx="1240" cy="625" rx="98" ry="9" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="1240" y="647" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#5E3800" text-anchor="middle">MongoDB objstore</text>
+<text x="1240" y="661.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-style="italic" fill="#52606D" text-anchor="middle">mongo 8.0.6 · :27017 (published)</text>
+<text x="1240" y="679.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle">mlos: ledger object store (bulk)</text>
+<text x="1240" y="695" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle">ttk: TTK history</text>
+<text x="1240" y="710.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle">reporting: audit events</text>
+<rect x="1201.9" y="727" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1240" y="738" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<path d="M1142,789 v82 a98,9 0 0 0 196,0 v-82" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<ellipse cx="1240" cy="789" rx="98" ry="9" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.4"/>
+<text x="1240" y="811" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#5E3800" text-anchor="middle">Redis</text>
+<text x="1240" y="825.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-style="italic" fill="#52606D" text-anchor="middle">redis 6.2.4 · :6379 (published)</text>
+<text x="1240" y="843.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle">Proxy cache: central-ledger,</text>
+<text x="1240" y="859" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle">ALS, ML API adapter</text>
+<rect x="1201.9" y="876" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1240" y="887" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1142" y="925" width="196" height="80" rx="7" fill="#FDECEC" stroke="#C62828" stroke-width="1.4"/>
+<text x="1151" y="945.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#7F1414" text-anchor="start">No auth</text>
+<text x="1151" y="965.2" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">MongoDB and Redis run without</text>
+<text x="1151" y="979.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">authentication, with host ports</text>
+<text x="1151" y="993.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="start">published.</text>
+<path d="M111.6,150 L111.6,102 L1517.5,102 L1517.5,150" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="423.3" y="92.5" width="220.1" height="19.1" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="533.4" y="105.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="middle">GET /parties, /participants (HTTP → 202)</text>
+<path d="M1432.5,150 L1432.5,118 L196.4,118 L196.4,150" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="967.5" y="108.5" width="311.9" height="19.1" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="1123.5" y="121.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="middle">PUT /parties callbacks (and GET /parties to the payee FSP)</text>
+<path d="M260,223.5 L330,223.5" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="266.1" y="205.6" width="57.8" height="31.9" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="295" y="218.4" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">/quotes</text>
+<text x="295" y="231.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">/transfers</text>
+<path d="M350,633.4 L300,633.4 L300,275 L260,275" fill="none" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" stroke-linejoin="round" marker-end="url(#m-2B3640)"/>
+<rect x="262.3" y="388.1" width="75.4" height="31.9" rx="4" fill="#FFFFFF" stroke="none" stroke-width="1" fill-opacity="0.94"/>
+<text x="300" y="400.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">callbacks</text>
+<text x="300" y="414.3" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" fill="#1F2933" text-anchor="middle">PUT / PATCH</text>
+<rect x="1610" y="134" width="360" height="300" rx="10" fill="#FFFFFF" stroke="#0F7C8C" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1622" y="154" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#0F7C8C" text-anchor="start">OBSERVABILITY</text>
+<rect x="1622" y="164" width="336" height="68" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4"/>
+<text x="1631" y="185.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">Audit events (Event SDK)</text>
+<text x="1631" y="205.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Every service → topic-event-audit on Kafka · LOG and TRACE</text>
+<text x="1631" y="220.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">output off · trace context (traceparent) in headers and events</text>
+<rect x="1875.9" y="170" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1913.9" y="181" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1622" y="242" width="336" height="68" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4"/>
+<text x="1631" y="263.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">Health and metrics endpoints</text>
+<text x="1631" y="283.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">/health on every service (17 Compose health checks) ·</text>
+<text x="1631" y="298.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">/metrics in Prometheus format</text>
+<rect x="1875.9" y="248" width="76.1" height="15" rx="7.5" fill="#1565C0" stroke="none" stroke-width="1"/>
+<text x="1913.9" y="259" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">CONFIGURED</text>
+<rect x="1622" y="320" width="336" height="68" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="1631" y="341.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">Monitoring stack</text>
+<text x="1631" y="361.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Prometheus, Grafana, exporters: separate Compose project</text>
+<text x="1631" y="376.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">(see 10)</text>
+<rect x="1889.3" y="326" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1920.6" y="337" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="1610" y="450" width="360" height="196" rx="10" fill="#FFFFFF" stroke="#B0284A" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1622" y="470" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#B0284A" text-anchor="start">IDENTITY AND ACCESS MANAGEMENT</text>
+<rect x="1622" y="480" width="336" height="130" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="1631" y="501.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#616E7C" text-anchor="start">No identity provider in this</text>
+<text x="1631" y="518.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#616E7C" text-anchor="start">repository</text>
+<text x="1631" y="538.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#9AA5B1" text-anchor="start">•</text>
+<text x="1642" y="538.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">FSP identity = FSPIOP-Source header (must be an active</text>
+<text x="1642" y="553.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">participant)</text>
+<text x="1631" y="568.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#9AA5B1" text-anchor="start">•</text>
+<text x="1642" y="568.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Admin and settlement APIs unauthenticated</text>
+<text x="1631" y="583.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#9AA5B1" text-anchor="start">•</text>
+<text x="1642" y="583.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Present but off: SDK OAuth2 client, TTK OAuth / Keycloak,</text>
+<text x="1642" y="598.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">reporting API Ory Keto + x-user header</text>
+<rect x="1870" y="486" width="82" height="15" rx="7.5" fill="#7B8794" stroke="none" stroke-width="1"/>
+<text x="1911" y="497" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">NOT PRESENT</text>
+<rect x="1610" y="662" width="360" height="188" rx="10" fill="#FFFFFF" stroke="#0F7C8C" stroke-width="1.5" stroke-dasharray="8 5" fill-opacity="0.55"/>
+<text x="1622" y="682" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#0F7C8C" text-anchor="start">OPERATIONS AND REPORTING</text>
+<text x="1836.6" y="682" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#06474F" text-anchor="start">finance-portal profile</text>
+<rect x="1622" y="692" width="336" height="115" rx="7" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="1631" y="713.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">Finance Portal (Business Operations</text>
+<text x="1631" y="730.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#06474F" text-anchor="start">Portal)</text>
+<text x="1631" y="750.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="1642" y="750.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">reporting-events-processor: event-audit → MongoDB</text>
+<text x="1642" y="765.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">reporting</text>
+<text x="1631" y="780.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="1642" y="780.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Reporting API (GraphQL, :9401) reads MySQL + MongoDB</text>
+<text x="1631" y="795.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#0F7C8C" text-anchor="start">•</text>
+<text x="1642" y="795.5" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Shell :9400 with transfers and positions UIs</text>
+<rect x="1889.3" y="698" width="62.7" height="15" rx="7.5" fill="#C25E00" stroke="none" stroke-width="1"/>
+<text x="1920.6" y="709" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">OPTIONAL</text>
+<rect x="1610" y="866" width="360" height="184" rx="10" fill="#FFFFFF" stroke="#6A4C93" stroke-width="1.5" fill-opacity="0.55"/>
+<text x="1622" y="886" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6" fill="#6A4C93" text-anchor="start">CONFIGURATION AND START-UP</text>
+<rect x="1622" y="896" width="336" height="113" rx="7" fill="#F5F1FA" stroke="#6A4C93" stroke-width="1.4"/>
+<text x="1631" y="917.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#3E2A5E" text-anchor="start">Harness glue</text>
+<text x="1631" y="937.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#6A4C93" text-anchor="start">•</text>
+<text x="1642" y="937.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">config-modifier: merges configs/*.js into each image's</text>
+<text x="1642" y="952.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">default.json</text>
+<text x="1631" y="967.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#6A4C93" text-anchor="start">•</text>
+<text x="1642" y="967.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">wait4: waits for dependencies (60 × 10 s)</text>
+<text x="1631" y="982.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#6A4C93" text-anchor="start">•</text>
+<text x="1642" y="982.7" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">kafka-provisioning: creates 23 topics · DB migrations at</text>
+<text x="1642" y="997.6" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">start</text>
+<rect x="1864.7" y="902" width="87.3" height="15" rx="7.5" fill="#2E7D32" stroke="none" stroke-width="1"/>
+<text x="1908.3" y="913" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF" text-anchor="middle">IMPLEMENTED</text>
+<rect x="30" y="1086" width="640" height="67" rx="7" fill="#FFFDF5" stroke="#C9B458" stroke-width="1.4"/>
+<text x="39" y="1106.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#3D3500" text-anchor="start">Scaling unit = handler</text>
+<text x="39" y="1126.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Here central-ledger runs its API and most handlers in one process. docker-compose-perf.yml and the Kubernetes</text>
+<text x="39" y="1141.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">deployment (moja-centralledger-handler-*) run each handler as its own scalable deployment.</text>
+<rect x="684" y="1086" width="426" height="67" rx="7" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.4"/>
+<text x="693" y="1106.9" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#616E7C" text-anchor="start">Not deployed</text>
+<text x="693" y="1126.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Bulk API adapter, Transaction Requests Service (request-to-pay), Finance</text>
+<text x="693" y="1141.8" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F2933" text-anchor="start">Portal Roles and Settlements UIs.</text>
+<rect x="1130" y="1086" width="840" height="97" rx="8" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="1142" y="1105" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6" fill="#3E4C59" text-anchor="start">LEGEND</text>
+<rect x="1142" y="1113" width="26" height="15" rx="3" fill="#E7F0FB" stroke="#1F5FA8" stroke-width="1.3"/>
+<text x="1176" y="1124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Mojaloop core service</text>
+<rect x="1142" y="1134" width="26" height="15" rx="3" fill="#EEF6EA" stroke="#4A7A2C" stroke-width="1.3"/>
+<text x="1176" y="1145" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">FSP-side component</text>
+<rect x="1142" y="1155" width="26" height="15" rx="3" fill="#E5F5EC" stroke="#1B7F4C" stroke-width="1.3"/>
+<text x="1176" y="1166" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Message broker</text>
+<path d="M1419.6666666666667,1115 v10 a10,3 0 0 0 20,0 v-10" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.2"/><ellipse cx="1429.6666666666667" cy="1115" rx="10" ry="3" fill="#FFF4DF" stroke="#B26B00" stroke-width="1.2"/>
+<text x="1450.7" y="1124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Database / cache</text>
+<rect x="1416.7" y="1134" width="26" height="15" rx="3" fill="#E6F5F7" stroke="#0F7C8C" stroke-width="1.3"/>
+<text x="1450.7" y="1145" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Observability / operations</text>
+<rect x="1416.7" y="1155" width="26" height="15" rx="3" fill="#FAFAFA" stroke="#9AA5B1" stroke-width="1.3"/>
+<text x="1450.7" y="1166" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Not present</text>
+<path d="M1691.3333333333335,1120 L1717.3333333333335,1120" stroke="#2B3640" stroke-width="1.6" marker-end="url(#m-2B3640)"/>
+<text x="1725.3" y="1124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Synchronous HTTP</text>
+<path d="M1691.3333333333335,1141 L1717.3333333333335,1141" stroke="#2B3640" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#m-2B3640)"/>
+<text x="1725.3" y="1145" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Async (Kafka / callback)</text>
+<path d="M1691.3333333333335,1162 L1717.3333333333335,1162" stroke="#B26B00" stroke-width="1.4" marker-end="url(#m-B26B00)"/>
+<text x="1725.3" y="1166" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start">Data access</text>
+<line x1="28" y1="1196" x2="1972" y2="1196" stroke="#D9E2EC" stroke-width="1"/>
+<text x="28" y="1216" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="start">All services run as single containers here (see 03a). Handler inputs and outputs verified from Kafka traces in the 2026-11-04 labs.</text>
+<text x="1972" y="1216" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" fill="#52606D" text-anchor="end">Evidence register: docs/architecture/analysis/architecture-evidence-register.md</text>
+</svg>
