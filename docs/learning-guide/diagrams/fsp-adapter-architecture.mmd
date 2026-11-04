@@ -1,0 +1,13 @@
+%% FSP adapter architecture: Core Connector + Mojaloop Connector (SDK) (see 12-adapter-development.md §3)
+flowchart LR
+    subgraph FSP["Bank A"]
+        CBS["Core Banking System<br/>(SOAP / REST / ISO 8583 / MQ)"]
+        CC["Core Connector<br/>(FSP-specific adapter)<br/>- implements SDK Backend API<br/>- calls SDK Outbound API<br/>- maps data & errors<br/>- idempotency store"]
+        SDK["Mojaloop Connector<br/>(SDK Scheme Adapter)<br/>- FSPIOP inbound :4000<br/>- Outbound API :4001<br/>- ILP, JWS, mTLS<br/>- Redis correlation"]
+    end
+    SW["Mojaloop Switch"]
+
+    CBS <-->|"proprietary"| CC
+    CC -->|"Outbound: POST /transfers,<br/>PUT /transfers/{id}"| SDK
+    SDK -->|"Backend: GET /parties,<br/>POST /quoterequests,<br/>POST /transfers, PUT /transfers/{id}"| CC
+    SDK <-->|"FSPIOP async"| SW

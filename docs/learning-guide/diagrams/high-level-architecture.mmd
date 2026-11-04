@@ -1,0 +1,63 @@
+%% High-level Mojaloop architecture (see 05-system-architecture.md §1)
+flowchart LR
+    Payer(["Payer"]) --> PFSP
+    subgraph PFSP["Payer FSP (bank / wallet)"]
+        PCore["Core system"] --- PConn["Connector<br/>(SDK Scheme Adapter)"]
+    end
+
+    subgraph SWITCH["Mojaloop Switch (Hub)"]
+        direction TB
+        subgraph EDGE["FSPIOP API edge (HTTP)"]
+            ALS["Account Lookup Service<br/>:4002 FSPIOP, :4001 admin"]
+            QS["Quoting Service<br/>:3002"]
+            MLA["ML API Adapter<br/>:3000"]
+        end
+        subgraph PROC["Processing"]
+            QSH["Quoting handlers"]
+            CL["Central Ledger<br/>API :3001 + handlers"]
+            PB["Position (batch) handler"]
+            NH["Notification handler<br/>(inside ML API Adapter)"]
+            CS["Central Settlement<br/>:3007"]
+        end
+        ORA["Oracle(s)<br/>MSISDN :3000"]
+        K[("Kafka")]
+        DB[("MySQL<br/>central_ledger")]
+        DBA[("MySQL<br/>account_lookup / oracle")]
+        MG[("MongoDB")]
+        RD[("Redis")]
+    end
+
+    subgraph PAYEE_FSP["Payee FSP"]
+        QConn["Connector"] --- QCore["Core system"]
+    end
+    PAYEE_FSP --> Payee(["Payee"])
+
+    PConn <-->|"/parties"| ALS
+    PConn <-->|"/quotes"| QS
+    PConn <-->|"/transfers"| MLA
+    ALS <--> ORA
+    ALS <-->|"/parties"| QConn
+    QS --> K --> QSH -->|"/quotes"| QConn
+    MLA --> K
+    K --> CL --> K
+    K --> PB --> K
+    K --> NH -->|"callbacks"| PConn
+    NH -->|"/transfers"| QConn
+    CL --- DB
+    PB --- DB
+    CS --- DB
+    QSH --- DB
+    ALS --- DBA
+    ORA --- DBA
+    CL --- MG
+    MLA --- RD
+
+    subgraph OPS["Operations (optional)"]
+        PROM["Prometheus"] --> GRAF["Grafana"]
+        FP["Finance Portal"]
+        HUBOP(["Hub operator"])
+    end
+    HUBOP -->|"admin API"| CL
+    HUBOP -->|"settlement API"| CS
+    PROM -.->|"/metrics"| SWITCH
+    FP -.-> DB

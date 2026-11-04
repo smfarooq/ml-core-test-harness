@@ -1,0 +1,34 @@
+%% Cross-currency (FX) payment as exercised by
+%% docker/ml-testing-toolkit/test-cases/collections/tests/fx/golden_path/feature_tests/happy_path/fx_tests.json
+%% (see 04-business-use-cases.md §3.9)
+sequenceDiagram
+    autonumber
+    participant PF as Payer FSP (source currency XXX)
+    participant SW as Mojaloop Switch
+    participant FXP as FX Provider (testfxp1)
+    participant QF as Payee FSP (target currency XTS)
+
+    PF->>SW: GET /parties/MSISDN/{ID}
+    SW->>QF: GET /parties/MSISDN/{ID}
+    QF-->>SW: PUT /parties (party, supported currency)
+    SW-->>PF: PUT /parties
+    PF->>SW: GET /services/FXP
+    SW-->>PF: PUT /services/FXP {providers}
+    PF->>SW: POST /fxQuotes {conversionRequestId, conversionTerms: source XXX, target XTS}
+    SW->>FXP: POST /fxQuotes
+    FXP-->>SW: PUT /fxQuotes/{id} {conversionTerms with rate, condition}
+    SW-->>PF: PUT /fxQuotes/{id}
+    PF->>SW: POST /quotes (amount in target currency)
+    SW->>QF: POST /quotes
+    QF-->>SW: PUT /quotes/{id} {transferAmount, ilpPacket, condition}
+    SW-->>PF: PUT /quotes/{id}
+    PF->>SW: POST /fxTransfers {commitRequestId, determiningTransferId, sourceAmount, targetAmount, condition}
+    SW->>FXP: POST /fxTransfers
+    FXP-->>SW: PUT /fxTransfers/{id} {conversionState: RESERVED, fulfilment}
+    SW-->>PF: PUT /fxTransfers/{id} (RESERVED)
+    PF->>SW: POST /transfers {transferId = determiningTransferId, amount in XTS}
+    SW->>QF: POST /transfers
+    QF-->>SW: PUT /transfers/{id} {fulfilment, COMMITTED}
+    Note over SW: Main transfer commit also commits the dependent FX transfer
+    SW-->>PF: PUT /transfers/{id} COMMITTED
+    SW-->>FXP: PATCH /fxTransfers/{id} (final state)

@@ -1,0 +1,22 @@
+%% Transfer processing through Kafka topics and handlers (see 05-system-architecture.md §5)
+%% In this harness all POSITION actions are mapped to topic-transfer-position-batch (configs/central-ledger.js)
+flowchart LR
+    PF["Payer FSP"] -->|"1 POST /transfers"| MLA["ML API Adapter"]
+    MLA -->|"2"| T1[["topic-transfer-prepare"]]
+    T1 --> PH["Prepare handler<br/>(central-ledger)"]
+    PH -->|"3 validate, dedupe,<br/>save RECEIVED_PREPARE"| DB[("MySQL")]
+    PH -->|"4"| T2[["topic-transfer-position-batch"]]
+    T2 --> POS["Position batch handler"]
+    POS -->|"5 NDC check,<br/>position += amount,<br/>RESERVED"| DB
+    POS -->|"6"| T3[["topic-notification-event"]]
+    T3 --> NH["Notification handler<br/>(ML API Adapter)"]
+    NH -->|"7 POST /transfers"| QF["Payee FSP"]
+    QF -->|"8 PUT /transfers/ID (fulfilment)"| MLA
+    MLA -->|"9"| T4[["topic-transfer-fulfil"]]
+    T4 --> FH["Fulfil handler<br/>(central-ledger)"]
+    FH -->|"10 verify fulfilment,<br/>RECEIVED_FULFIL"| DB
+    FH -->|"11 COMMIT"| T2
+    POS -->|"12 COMMITTED,<br/>payee position -= amount"| DB
+    POS -->|"13"| T3
+    NH -->|"14 PUT /transfers/ID COMMITTED"| PF
+    NH -.->|"14b PATCH if payee sent RESERVED"| QF

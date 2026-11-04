@@ -1,0 +1,24 @@
+%% Central-ledger internal transfer states (upstream central-ledger v19.4.4 seeds/transferState.js)
+%% See 07-payment-transaction-lifecycle.md §4
+stateDiagram-v2
+    [*] --> RECEIVED_PREPARE: POST /transfers valid
+    [*] --> INVALID: validation fails
+    RECEIVED_PREPARE --> RESERVED: position OK (NDC, liquidity)
+    RECEIVED_PREPARE --> ABORTED_REJECTED: NDC / liquidity breach (4001/4200)
+    RECEIVED_PREPARE --> EXPIRED_PREPARED: timeout handler
+    RECEIVED_PREPARE --> RESERVED_FORWARDED: payee via proxy
+    RESERVED --> RECEIVED_FULFIL: PUT fulfilment valid
+    RESERVED --> RECEIVED_REJECT: payee sends ABORTED
+    RESERVED --> RECEIVED_ERROR: payee sends /error
+    RESERVED --> RESERVED_TIMEOUT: expiration passed
+    RECEIVED_FULFIL --> COMMITTED: position commit
+    RECEIVED_REJECT --> ABORTED_REJECTED: reservation reversed
+    RECEIVED_ERROR --> ABORTED_ERROR: reservation reversed
+    RESERVED_TIMEOUT --> EXPIRED_RESERVED: reservation reversed
+    COMMITTED --> SETTLED: settlement
+    INVALID --> [*]
+    EXPIRED_PREPARED --> [*]
+    ABORTED_REJECTED --> [*]
+    ABORTED_ERROR --> [*]
+    EXPIRED_RESERVED --> [*]
+    SETTLED --> [*]
